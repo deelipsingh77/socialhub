@@ -9,19 +9,19 @@ from users.models import UserProfile
 
 
 @login_required(login_url="/login/")
-def home(request,username):
-    user=request.user
-    data=UserProfile.objects.get(user=user)
-  
-    context={"user":user,"data":data}
+def home(request, username):
+    user = request.user
+    data = UserProfile.objects.get(user=user)
 
-    return render(request,"home.html",context)
+    context = {"user": user, "data": data}
+
+    return render(request, "home.html", context)
+
 
 @login_required(login_url="/login/")
-def search_page(request,username):
-    user=request.user
-    data=UserProfile.objects.get(user=user)
-  
-    context={"user":user,"data":data}
-    return render(request,"search.html",context)
+def search_page(request, username):
+    user = request.user
+    data = UserProfile.objects.get(user=user)
 
+    context = {"user": user, "data": data}
+    return render(request, "search.html", context)
