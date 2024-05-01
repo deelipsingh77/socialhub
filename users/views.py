@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 def login_page(request):
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("/{{request.user}}/home")
     if request.method=="POST":
         username=request.POST.get("username")
         password=request.POST.get("password")
@@ -36,7 +36,7 @@ def logout_page(request):
 
 def register_page(request):
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("{{request.user}}/home")
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
