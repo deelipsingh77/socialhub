@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: 'poppins', sans-serif;
+}
+
+
+body {
+    background-color: #3A0250;
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+}
+
+/* side_menu design */
+.side_menu {
+    background-color: #520770;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 97vh;
+    width: max-content;
+    padding: 50px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.side_menu nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.side_menu nav a {
+    text-decoration: none;
+    color: white;
+    margin-top: 20px;
+    padding: 10px 30px 10px 20px;
+    background-color: #621282;
+    border-radius: 5px;
+    transition-duration: 0.1s;
+}
+
+.side_menu nav a i {
+    margin-right: 10px;
+}
+
+.side_menu nav a:hover {
+    transform: scale(1.1);
+    background-color: red;
+
+}
+
+.active_page {
+    background-color: lightseagreen !important;
+
+}
+
+header .bottom a {
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: red;
+    border-radius: 5px;
+}
+
+.side_menu .top .Profile_name_username {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.side_menu .top .Profile_name_username .profile_photo {
+    font-size: 50px;
+    border: 2px solid white;
+    width: 100px ;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.side_menu .top .Profile_name_username .profile_photo img{
+    object-fit: cover;
+    object-position: center;
+}
+/* main design */
+main {
+    display: flex;
+    width: 80%;
+    justify-content: space-around;
+}
+
+.home_content {
+    background-color: #520770;
+    width: 60%;
+    height: 97vh;
+    margin-left: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.home_content::-webkit-scrollbar {
+    display: none;
+}
+
+
+.home_content img {
+    border-radius: 10px;
+    border: 3px solid red;
+}
+
+.home_content .card {
+    margin-bottom: 50px;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 97%;
+}
+
+.right_most {
+    width: 30%;
+    background-color: #520770;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.right_most img {
+    border-radius: 10px;
+}
+
+
+
+
+@media (width<800px) {
+    .side_menu {
+        display: none;
+    }
+
+    .right_most {
+        display: none;
+    }
+
+    main {
+        width: 100vw;
+    }
+
+    .home_content {
+        width: 90%;
+    }
+}

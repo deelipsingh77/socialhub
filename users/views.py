@@ -5,8 +5,11 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+
 def login_page(request):
     if request.user.is_authenticated:
         return redirect("home")
@@ -14,19 +17,18 @@ def login_page(request):
         username=request.POST.get("username")
         password=request.POST.get("password")
 
+        
         valid_user=authenticate(username=username,password=password)
         
         if valid_user is not None:
             login(request,valid_user)
-            return redirect("home")
+            return redirect(f"/{username}/home")
         else:
             messages.error(request,"Wrong username or password")
             return redirect("login")
     return render(request,"login.html")
 
-def home(req):
-    logout_url = reverse('logout')
-    return HttpResponse(f"home <a href='{logout_url}'>logout</a> ")
+
 
 def logout_page(request):
     logout(request)
@@ -50,11 +52,20 @@ def register_page(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username is already taken.")
             return redirect('register')
+        
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email is already taken.")
+            return redirect('register')
 
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.first_name = first_name
-        user.last_name = last_name
-        user.save()
+        if(first_name and last_name and username and email and password and confirm_password):
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+        else:
+            messages.error(request,"Please fill all the deatails !!!")
+            return redirect("register")
+        
 
         UserProfile.objects.create(user=user)
 

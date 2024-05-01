@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header class="side_menu">
+        <div class="top">
+            <div class="Profile_name_username">
+                <div class="profile_photo">
+                    {% if data.profile_pic %}
+                        <img src="{{data.profile_pic.url}}" alt="hii" height="100%" width="100%">
+                    {% endif %}
+                </div>
+                <div class="profile_name">
+                    {% if user %}
+                        {{ user.username }}
+                    {% else %}
+                        <p>You are not logged in.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <nav>
+                <a class="active_page" href="/{{user.username}}/home"><i class="fa-solid fa-house"></i>Home</a>
+                <a href="/{{user.username}}/search"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
+                <a href="#"><i class="fa-solid fa-people-group"></i>My Posts</a>
+                <a href="#"><i class="fa-solid fa-floppy-disk"></i>Profile</a>
+                <a href="#"><i class="fa-solid fa-square-plus"></i>Create Post</a>
+            </nav>
+        </div>
+        <div class="bottom">
+            <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+        </div>
+    </header>
+    <main>
+       
+        <section class="home_content">
+            {% block content %}
+            {% comment %} <div class="card">
+                <img width="100%" src="{% static 'images/login-background.jpg'%}" alt="">
+                <h2>Social</h2>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto sint sapiente porro eum velit, beatae
+                    vel
+                    voluptates ut expedita cumque esse voluptatem accusantium eos aspernatur odio exercitationem, iste
+                    maiores a?
+                </p>
+            </div> {% endcomment %}
+            {% endblock content %}
+
+        </section>
+        <section class="right_most">
+            <img width="100%" src="" alt="">
+        </section>
+    </main>
+
+
+</body>
+
+</html>
