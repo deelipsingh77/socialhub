@@ -1,44 +1,88 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-   <form action="" method="post">
-        {% csrf_token %}
-        {% if messages %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static "css/register.css" %}" />
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <h1>SocialHub</h1>
+      </section>
+      <section class="parent-container">
+        <div class="child-container">
+          {% if messages %} 
             {% for message in messages %}
-                <div>{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        <div class="first-name-container">
-            <label for="first_name">First Name:</label>
-            <input type="text" name="first_name" id="first_name">
+              <div>{{ message }}</div>
+            {% endfor %} 
+          {% endif %}
+          <div class="titles">
+            <h1>Register</h1>
+            <p>Already Have an Account? <a href="{% url "login" %}">Log In</a></p>
+          </div>
+          <form method="post" id="form-container">
+          {% csrf_token %} 
+            <div class="name-container">
+              <input
+                type="text"
+                name="first_name"
+                id="fname"
+                placeholder="First Name"
+                required
+              />
+              <input
+                type="text"
+                name="last_name"
+                id="lname"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+            <div class="username-container">
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div class="email-container">
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="E-mail"
+                required
+              />
+            </div>
+            <div class="password-container">
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="password"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div class="password-container">
+              <input
+                type="password"
+                name="confirm_password"
+                id="confirm-password"
+                class="password"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+            <button type="submit" class="register-button">Register</button>
+          </form>
         </div>
-        <div class="last-name-container">
-            <label for="last_name">Last Name:</label>
-            <input type="text" name="last_name" id="last_name">
-        </div>
-        <div class="username-container">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username">
-        </div>
-        <div class="email-container">
-            <label for="email">E-mail:</label>
-            <input type="email" name="email" id="email">
-        </div>
-        <div class="password-container">
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <div class="confirm-password-container">
-            <label for="password">Confirm Password:</label>
-            <input type="password" name="confirm_password" id="confirm_password">
-        </div>
-        <button>Register</button>
-   </form> 
-</body>
+      </section>
+    </main>
+  </body>
 </html>

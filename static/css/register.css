@@ -38,8 +38,8 @@ main {
 
 .parent-container {
   padding: 30px;
-  width: 25%;
-  min-height: 300px;
+  width: 30%;
+  min-height: 500px;
   background-color: white;
   border-radius: 20px;
 }
@@ -52,13 +52,17 @@ input {
   padding-left: 10px;
 }
 
-#username, .password {
+#fname, #lname, #email, #username, .password {
   height: 50px;
   width: 100%;
   font-size: medium;
 }
 
-.username-container, .password-container{
+.name-container {
+  gap: 1rem;
+}
+
+.username-container, .password-container, .email-container, .name-container {
   display: flex;
   justify-content: center;
   padding-block: 5px;
@@ -73,7 +77,7 @@ input {
   gap: 0.5rem;
 }
 
-.login-button {
+.register-button {
   width: 100%;
   height: 50px;
   border-radius: 10px;
@@ -83,7 +87,7 @@ input {
   background-color: #0d6efd;
 }
 
-.login-button:hover {
+.register-button:hover {
   background-color: rgb(238, 130, 47);
   transition: background-color 0.2s ease-in-out;
 }
