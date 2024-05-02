@@ -27,6 +27,14 @@ main {
   font-size: 2rem;
 }
 
+.parent-container {
+  padding: 30px;
+  min-width: 25%;
+  min-height: 300px;
+  background-color: white;
+  border-radius: 20px;
+}
+
 .child-container {
   padding-block: 40px;
   display: flex;
@@ -35,15 +43,6 @@ main {
   justify-content: center;
   gap: 1rem;
 }
-
-.parent-container {
-  padding: 30px;
-  width: 25%;
-  min-height: 300px;
-  background-color: white;
-  border-radius: 20px;
-}
-
 input {
   border-radius: 5px;
   outline: none;
@@ -91,4 +90,10 @@ input {
 .hero > h1 {
   color: white;
   font-size: 4rem;
+}
+
+@media screen and (max-width: 600px) {
+  main {
+    flex-direction: column;
+  }
 }

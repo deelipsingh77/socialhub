@@ -27,6 +27,14 @@ main {
   font-size: 2rem;
 }
 
+.parent-container {
+  padding: 30px;
+  min-width: 300px;
+  min-height: 500px;
+  background-color: white;
+  border-radius: 20px;
+}
+
 .child-container {
   padding-block: 40px;
   display: flex;
@@ -34,14 +42,6 @@ main {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-}
-
-.parent-container {
-  padding: 30px;
-  width: 30%;
-  min-height: 500px;
-  background-color: white;
-  border-radius: 20px;
 }
 
 input {
@@ -95,4 +95,10 @@ input {
 .hero > h1 {
   color: white;
   font-size: 4rem;
+}
+
+@media screen and (max-width: 600px) {
+  main {
+    flex-direction: column;
+  }
 }
