@@ -79,4 +79,6 @@ def register_page(request):
 
 
 def landing_page(request):
+    if request.user.is_authenticated:
+        return redirect("/{{request.user}}/home")
     return render(request, 'landing-page.html')

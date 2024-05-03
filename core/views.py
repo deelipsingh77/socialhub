@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from users.models import UserProfile
-from .models import Post
+from .models import Post, Like, Comment
 from django.dispatch import receiver
 import os
+
 
 # Create your views here.
 
@@ -14,8 +15,18 @@ import os
 def home(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+    posts = Post.objects.all()
+    comments = Comment.objects.all()
+    likes = Like.objects.filter(user=user)
+   
 
-    context = {"user": user, "user_profile": user_profile}
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "posts": posts,
+        "comments": comments,
+        "likes":likes,
+    }
 
     return render(request, "home.html", context)
 
@@ -33,7 +44,6 @@ def search_page(request, username):
 def my_posts(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-
     posts = Post.objects.filter(author=user).order_by("-pub_date")
 
     context = {"posts": posts, "user_profile": user_profile, "user": user}
@@ -67,3 +77,32 @@ def delete_post(request, id):
 
     post.delete()
     return redirect(f"/{request.user}/my_posts")
+
+
+@login_required(login_url="/login/")
+def like_post(request, id):
+    user = request.user
+    post = Post.objects.get(id=id)
+    is_liked = Like.objects.filter(post=post, user=user).first()
+
+    if is_liked:
+        is_liked.delete()
+        post.likes_count -= 1
+    else:
+        Like.objects.create(user=user, post=post)
+        post.likes_count += 1
+
+    post.save()
+    count = len(Like.objects.filter(post=post))
+    return redirect(f"/{request.user}/home")
+
+
+@login_required(login_url="/login/")
+def comment_post(request, id):
+    content = request.POST.get("content")
+    post = Post.objects.get(id=id)
+    author = request.user
+
+    Comment.objects.create(content=content, post=post, author=author)
+
+    return redirect(f"/{request.user}/home")

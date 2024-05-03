@@ -1,66 +1,97 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+
+  <body>
     <header class="side_menu">
-        <div class="top">
-            <div class="Profile_name_username">
-                <div class="profile_photo">
-                    {% if user_profile.profile_pic %}
-                        <img src="{{user_profile.profile_pic.url}}" alt="hii" height="100%" width="100%">
-                    {% endif %}
-                </div>
-                <div class="profile_name">
-                    {% if user %}
-                        {{ user.username }}
-                    {% else %}
-                        <p>You are not logged in.</p>
-                    {% endif %}
-                </div>
-            </div>
-            <nav>
-                <a class="active_page" href="/{{user.username}}/home"><i class="fa-solid fa-house"></i>Home</a>
-                <a href="/{{user.username}}/search"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
-                <a href="/{{user.username}}/my_posts"><i class="fa-solid fa-people-group"></i>My Posts</a>
-                <a href="#"><i class="fa-solid fa-floppy-disk"></i>Profile</a>
-                <a href="/{{user.username}}/create_post"><i class="fa-solid fa-square-plus"></i>Create Post</a>
-            </nav>
+      <div class="top">
+        <div class="Profile_name_username">
+          <div class="profile_photo">
+            {% if user_profile.profile_pic %}
+              <img src="{{ user_profile.profile_pic.url }}" alt="hii" height="100%" width="100%" />
+            {% endif %}
+          </div>
+          <div class="profile_name">
+            {% if user %}
+              {{ user.username }}
+            {% else %}
+              <p>You are not logged in.</p>
+            {% endif %}
+          </div>
         </div>
-        <div class="bottom">
-            <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
-        </div>
+        <nav>
+          <a class="active_page" href="/{{ user.username }}/home"><i class="fa-solid fa-house"></i>Home</a>
+          <a href="/{{ user.username }}/search"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
+          <a href="/{{ user.username }}/my_posts"><i class="fa-solid fa-people-group"></i>My Posts</a>
+          <a href="#"><i class="fa-solid fa-floppy-disk"></i>Profile</a>
+          <a href="/{{ user.username }}/create_post"><i class="fa-solid fa-square-plus"></i>Create Post</a>
+        </nav>
+      </div>
+      <div class="bottom">
+        <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+      </div>
     </header>
     <main>
-        <section class="home_content">
-            {% block content %}
-            {% comment %} <div class="card">
-                <img width="100%" src="{% static 'images/login-background.jpg'%}" alt="">
-                <h2>Social</h2>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto sint sapiente porro eum velit, beatae
-                    vel
-                    voluptates ut expedita cumque esse voluptatem accusantium eos aspernatur odio exercitationem, iste
-                    maiores a?
-                </p>
-            </div> {% endcomment %}
-            {% endblock content %}
-
-        </section>
-        <section class="right_most">
-        </section>
+      <section class="home_content">
+        {% block content %}
+          {% if posts %}
+            {% for post in posts %}
+              <div style="color:white;" class="post-card">
+                {% if post.image %}
+                  <img src="{{ post.image.url }}" alt="{{ post.title }} image" class="post-card-image" width="200" />
+                {% endif %}
+                <div class="post-card-content">
+                  {% comment %} <a href="{% url 'post_detail' post.pk %}"><h3>{{ post.title }}</h3></a> {% endcomment %}
+                  <p class="post-card-excerpt">{{ post.content|truncatechars:50 }}</p>
+                  <div class="post-card-info">
+                    <span class="post-card-author">by {{ post.author.username }}</span>
+                    <span class="post-card-date">on {{ post.pub_date }}</span>
+                  </div>
+                  <div>
+                    <ul>
+                      {% for comment in comments %}
+                        {% if comment.post.id == post.id %}
+                          <div>
+                            <span>{{comment.author}}</span>
+                            <span>{{ comment.content }}</span>
+                            <span>{{comment.created_at}}</span>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div>
+                   {% for like in likes %}
+                      {% if like.post.id == post.id %}
+                      <a href="/{{ post.id }}/like_post/"><i style="color: red;" class="fa-regular fa-heart"></i></a>{{ post.likes_count }}
+                      {% endif %}
+                    {% endfor %} 
+                    {% comment %} <a href="/{{ post.id }}/like_post/"><i style="color: red;" class="fa-regular fa-heart"></i></a> {{ post.likes_count }} {% endcomment %}
+                    
+                    <form action="/{{ post.id }}/comment_post/" method="POST">
+                      {% csrf_token %}
+                      <input type="text" name="content" id="content" />
+                      <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div>No posts available</div>
+          {% endif %}
+        {% endblock %}
+      </section>
+      <section class="right_most"></section>
     </main>
-
-
-</body>
-
+  </body>
 </html>
