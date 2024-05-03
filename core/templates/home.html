@@ -17,8 +17,8 @@
         <div class="top">
             <div class="Profile_name_username">
                 <div class="profile_photo">
-                    {% if data.profile_pic %}
-                        <img src="{{data.profile_pic.url}}" alt="hii" height="100%" width="100%">
+                    {% if user_profile.profile_pic %}
+                        <img src="{{user_profile.profile_pic.url}}" alt="hii" height="100%" width="100%">
                     {% endif %}
                 </div>
                 <div class="profile_name">
@@ -32,9 +32,9 @@
             <nav>
                 <a class="active_page" href="/{{user.username}}/home"><i class="fa-solid fa-house"></i>Home</a>
                 <a href="/{{user.username}}/search"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
-                <a href="#"><i class="fa-solid fa-people-group"></i>My Posts</a>
+                <a href="/{{user.username}}/my_posts"><i class="fa-solid fa-people-group"></i>My Posts</a>
                 <a href="#"><i class="fa-solid fa-floppy-disk"></i>Profile</a>
-                <a href="#"><i class="fa-solid fa-square-plus"></i>Create Post</a>
+                <a href="/{{user.username}}/create_post"><i class="fa-solid fa-square-plus"></i>Create Post</a>
             </nav>
         </div>
         <div class="bottom">

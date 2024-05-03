@@ -1,0 +1,23 @@
+{% extends "home.html" %} 
+
+{% block content %}
+
+        <form  enctype="multipart/form-data" method="POST">
+
+            {% csrf_token %}
+
+            <div>
+                <input style="color:black;" type="text" placeholder="title" name="title" id="title">
+            </div>
+            <div>
+               <textarea style="color:black;" name="content" id="content" placeholder="content"></textarea>
+            </div>
+            <div>
+                <input type="file" placeholder="image" name="image" id="image">
+            </div>
+            <div>
+                <button style="color:black;"  type="submit">create post</button>
+            </div>
+        </form>
+
+{% endblock content %}
