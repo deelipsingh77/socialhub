@@ -7,8 +7,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="{% static "js/home.js" %}" defer></script>
   </head>
 
   <body>
@@ -70,12 +70,14 @@
                     </ul>
                   </div>
                   <div>
-                   {% for like in likes %}
-                      {% if like.post.id == post.id %}
-                      <a href="/{{ post.id }}/like_post/"><i style="color: red;" class="fa-regular fa-heart"></i></a>{{ post.likes_count }}
-                      {% endif %}
-                    {% endfor %} 
-                    {% comment %} <a href="/{{ post.id }}/like_post/"><i style="color: red;" class="fa-regular fa-heart"></i></a> {{ post.likes_count }} {% endcomment %}
+                    <div class="like-container">
+                      {% for like in likes %}
+                        {% if like.post.id == post.id %}
+                          <span><a href="/{{ post.id }}/like_post/"><i style="color: red;" class="fa-regular fa-heart"></i></a>{{ post.likes_count }}</span>
+                        {% endif %}
+                      {% endfor %} 
+                      <span class='like-icon'><a href="/{{ post.id }}/like_post/"><i style="color: white;" class="fa-regular fa-heart"></i></a> {{ post.likes_count }}</span>
+                    </div>
                     
                     <form action="/{{ post.id }}/comment_post/" method="POST">
                       {% csrf_token %}
