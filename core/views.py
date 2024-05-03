@@ -25,3 +25,10 @@ def search_page(request, username):
 
     context = {"user": user, "data": data}
     return render(request, "search.html", context)
+
+@login_required(login_url='/login/')
+def my_posts(request, username):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    
