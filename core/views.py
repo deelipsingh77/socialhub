@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -61,6 +62,7 @@ def create_post(request, username):
         author = user
 
         Post.objects.create(title=title, content=content, image=image, author=author)
+        return redirect(f"/{request.user}/my_posts/")
 
     context = {"user": user, "user_profile": user_profile}
     return render(request, "create_post.html", context)
@@ -76,7 +78,8 @@ def delete_post(request, id):
             os.remove(image_path)
 
     post.delete()
-    return redirect(f"/{request.user}/my_posts")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
 
 
 @login_required(login_url="/login/")
@@ -94,7 +97,8 @@ def like_post(request, id):
 
     post.save()
     count = len(Like.objects.filter(post=post))
-    return redirect(f"/{request.user}/home")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
 
 
 @login_required(login_url="/login/")
@@ -105,4 +109,5 @@ def comment_post(request, id):
 
     Comment.objects.create(content=content, post=post, author=author)
 
-    return redirect(f"/{request.user}/home")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
