@@ -25,13 +25,4 @@
     {% endfor %}
 </div>
 
-<script>
-    let followButtons = document.getElementsByClassName('follow-button')
-    for (let followButton of followButtons) {
-        if (followButton.innerText == ''){
-            followButton.innerText = 'Follow'
-        }
-    }
-</script>
-
 {% endblock content %}
