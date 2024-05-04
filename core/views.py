@@ -47,9 +47,7 @@ def search_page(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
     all_users = UserProfile.objects.all()
-    
-    
-    
+
     all_followings = get_followings(user_profile)
     context = {
         "user": user,
@@ -67,7 +65,12 @@ def my_posts(request, username):
     posts = Post.objects.filter(author=user).order_by("-pub_date")
 
     all_followings = get_followings(user_profile)
-    context = {"posts": posts, "user_profile": user_profile, "user": user, "following_profiles": all_followings,}
+    context = {
+        "posts": posts,
+        "user_profile": user_profile,
+        "user": user,
+        "following_profiles": all_followings,
+    }
     return render(request, "posts.html", context)
 
 
@@ -85,7 +88,11 @@ def create_post(request, username):
         return redirect(f"/{request.user}/my_posts/")
 
     all_followings = get_followings(user_profile)
-    context = {"user": user, "user_profile": user_profile, "following_profiles": all_followings,}
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "following_profiles": all_followings,
+    }
     return render(request, "create_post.html", context)
 
 
@@ -141,6 +148,5 @@ def follow_user(request, username):
     else:
         user_profile.followers.add(to_follow)
 
-    
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
     # return redirect(f'/{request.user}/search/?{show_follow}')
