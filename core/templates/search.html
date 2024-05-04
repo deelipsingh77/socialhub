@@ -12,9 +12,26 @@
     <div style='background: gray; margin: 20px;' class="user-card">
         <img width='100' src="{{user.profile_pic.url}}" alt="">
         <h4>{{user.user.username}}</h4>
-        <a href="/{{user.user.username}}/follow_user"><button type="submit">Follow</button></a>
+        <a href="/{{user.user.username}}/follow_user">
+            <button class='follow-button' type="submit">
+                {% for following_profile in following_profiles %}
+                    {% if user == following_profile %}
+                    Unfollow 
+                    {% endif %}
+                {% endfor %}
+            </button>
+        </a>
     </div>
     {% endfor %}
 </div>
+
+<script>
+    let followButtons = document.getElementsByClassName('follow-button')
+    for (let followButton of followButtons) {
+        if (followButton.innerText == ''){
+            followButton.innerText = 'Follow'
+        }
+    }
+</script>
 
 {% endblock content %}

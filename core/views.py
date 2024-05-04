@@ -47,7 +47,9 @@ def search_page(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
     all_users = UserProfile.objects.all()
-
+    
+    
+    
     all_followings = get_followings(user_profile)
     context = {
         "user": user,
@@ -134,6 +136,11 @@ def follow_user(request, username):
     to_follow = User.objects.get(username=username)
     user_profile = UserProfile.objects.get(user=request.user)
 
-    user_profile.followers.add(to_follow)
+    if to_follow in user_profile.followers.all():
+        user_profile.followers.remove(to_follow)
+    else:
+        user_profile.followers.add(to_follow)
 
+    
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+    # return redirect(f'/{request.user}/search/?{show_follow}')

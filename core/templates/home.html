@@ -98,8 +98,8 @@
           {% for following_profile in following_profiles %}
           <div class="following-card">
             <img width='100' src="{{following_profile.profile_pic.url}}" alt="">
-            <h4>{{following.user.username}}</h4>
-            <a href="#"><button>Unfollow</button></a>
+            <h4>{{following_profile.user.username}}</h4>
+            <a href="/{{following_profile.user.username}}/follow_user"><button>Unfollow</button></a>
           </div>
         {% endfor %}
       </section>
