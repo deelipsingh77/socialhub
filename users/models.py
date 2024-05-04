@@ -10,6 +10,7 @@ class UserProfile(models.Model):
         upload_to="profile_pic", null=True, blank=True, default="blank-profile.svg"
     )
     bio = models.TextField(null=True, blank=True)
+    followers = models.ManyToManyField(User, related_name='following', blank=True)
 
     def __str__(self):
         return self.user.username

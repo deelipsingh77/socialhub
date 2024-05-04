@@ -12,6 +12,14 @@ import os
 # Create your views here.
 
 
+def get_followings(user_profile):
+    all_followers = user_profile.followers.all()
+    all_followings = []
+    for followings in all_followers:
+        all_followings.append(UserProfile.objects.get(user=followings))
+    return all_followings
+
+
 @login_required(login_url="/login/")
 def home(request, username):
     user = request.user
@@ -19,14 +27,16 @@ def home(request, username):
     posts = Post.objects.all()
     comments = Comment.objects.all()
     likes = Like.objects.filter(user=user)
-   
+
+    all_followings = get_followings(user_profile)
 
     context = {
         "user": user,
         "user_profile": user_profile,
         "posts": posts,
         "comments": comments,
-        "likes":likes,
+        "likes": likes,
+        "following_profiles": all_followings,
     }
 
     return render(request, "home.html", context)
@@ -36,8 +46,15 @@ def home(request, username):
 def search_page(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+    all_users = UserProfile.objects.all()
 
-    context = {"user": user, "user_profile": user_profile}
+    all_followings = get_followings(user_profile)
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "all_users": all_users,
+        "following_profiles": all_followings,
+    }
     return render(request, "search.html", context)
 
 
@@ -47,7 +64,8 @@ def my_posts(request, username):
     user_profile = UserProfile.objects.get(user=user)
     posts = Post.objects.filter(author=user).order_by("-pub_date")
 
-    context = {"posts": posts, "user_profile": user_profile, "user": user}
+    all_followings = get_followings(user_profile)
+    context = {"posts": posts, "user_profile": user_profile, "user": user, "following_profiles": all_followings,}
     return render(request, "posts.html", context)
 
 
@@ -64,7 +82,8 @@ def create_post(request, username):
         Post.objects.create(title=title, content=content, image=image, author=author)
         return redirect(f"/{request.user}/my_posts/")
 
-    context = {"user": user, "user_profile": user_profile}
+    all_followings = get_followings(user_profile)
+    context = {"user": user, "user_profile": user_profile, "following_profiles": all_followings,}
     return render(request, "create_post.html", context)
 
 
@@ -78,8 +97,7 @@ def delete_post(request, id):
             os.remove(image_path)
 
     post.delete()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
 @login_required(login_url="/login/")
@@ -97,8 +115,7 @@ def like_post(request, id):
 
     post.save()
     count = len(Like.objects.filter(post=post))
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
 @login_required(login_url="/login/")
@@ -109,5 +126,14 @@ def comment_post(request, id):
 
     Comment.objects.create(content=content, post=post, author=author)
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+
+@login_required(login_url="/login/")
+def follow_user(request, username):
+    to_follow = User.objects.get(username=username)
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    user_profile.followers.add(to_follow)
+
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))

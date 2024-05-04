@@ -7,4 +7,14 @@
     <button style="color:black" type="submit" >Search</button>
 </form>
 
+<div class="users">
+    {% for user in all_users %}
+    <div style='background: gray; margin: 20px;' class="user-card">
+        <img width='100' src="{{user.profile_pic.url}}" alt="">
+        <h4>{{user.user.username}}</h4>
+        <a href="/{{user.user.username}}/follow_user"><button type="submit">Follow</button></a>
+    </div>
+    {% endfor %}
+</div>
+
 {% endblock content %}
