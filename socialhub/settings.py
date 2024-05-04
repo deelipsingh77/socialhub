@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-3o0b!5$#!m-_sm2c6n&uyyccwzu=h9a+f_r-i)7ac601o*lotk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://socialhub-gro8.onrender.com']
 
 
 # Application definition
