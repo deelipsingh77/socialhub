@@ -24,7 +24,7 @@ def get_followings(user_profile):
 def home(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    posts = Post.objects.all().order_by('-pub_date')
+    posts = Post.objects.all().order_by("-pub_date")
     comments = Comment.objects.all()
     likes = Like.objects.filter(user=user)
     all_followings = get_followings(user_profile)
@@ -42,6 +42,7 @@ def home(request, username):
 
     return render(request, "home.html", context)
 
+
 @login_required(login_url="/login/")
 def my_profile(request, username):
     user = request.user
@@ -52,11 +53,10 @@ def my_profile(request, username):
     all_followings = get_followings(user_profile)
     all_users = UserProfile.objects.all()
 
+    following_count = user_profile.followers.count()
+    followers_count = request.user.following.count()
 
-    following_count= user_profile.followers.count()
-    followers_count=request.user.following.count()
-
-    #test code
+    # test code
 
     context = {
         "user": user,
@@ -66,8 +66,8 @@ def my_profile(request, username):
         "likes": likes,
         "following_profiles": all_followings,
         "all_users": all_users,
-        "following_count":following_count,
-        "followers_count":followers_count,
+        "following_count": following_count,
+        "followers_count": followers_count,
     }
 
     return render(request, "myprofile.html", context)
@@ -99,14 +99,13 @@ def my_posts(request, username):
     all_followings = get_followings(user_profile)
     all_users = UserProfile.objects.all()
 
-
     all_followings = get_followings(user_profile)
     context = {
         "posts": posts,
         "user_profile": user_profile,
         "user": user,
         "following_profiles": all_followings,
-         "comments": comments,
+        "comments": comments,
         "likes": likes,
         "all_users": all_users,
     }
@@ -193,22 +192,37 @@ def follow_unfollow_user(request, username):
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
     # return redirect(f'/{request.user}/search/?{show_follow}')
 
+
 @login_required(login_url="/login/")
 def edit_profile(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    if request.method == 'POST':
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.email = request.POST.get('email')
-        profile_pic = request.FILES.get('profile_pic')
-        bio = request.POST.get('bio')
+    all_followings = get_followings(user_profile)
+    all_users = UserProfile.objects.all()
+
+    if request.method == "POST":
+        user.first_name = request.POST.get("first_name")
+        user.last_name = request.POST.get("last_name")
+        user.email = request.POST.get("email")
+
+        profile_pic = request.FILES.get("profile_pic")
+
+        if not profile_pic:
+            profile_pic = user_profile.profile_pic
+
+        bio = request.POST.get("bio")
         user_profile.profile_pic = profile_pic
         user_profile.bio = bio
         user.save()
         user_profile.save()
-        return redirect(f'/{request.user}/my_profile/')
-    return render(request, 'edit_profile.html', {'user': user, 'user_profile': user_profile})
+        return redirect(f"/{request.user}/my_profile/")
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+    }
+    return render(request, "edit_profile.html", context)
 
 
 @login_required(login_url="/login/")
@@ -225,7 +239,8 @@ def notifications_page(request, username):
         "all_users": all_users,
     }
 
-    return render(request, 'notifications.html', context)
+    return render(request, "notifications.html", context)
+
 
 @login_required(login_url="/login/")
 def chat_page(request, username):
@@ -240,4 +255,34 @@ def chat_page(request, username):
         "following_profiles": all_followings,
         "all_users": all_users,
     }
-    return render(request, 'chat.html', context)
+    return render(request, "chat.html", context)
+
+
+@login_required(login_url="/login/")
+def others_profile_page(request,otheruser):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    posts = Post.objects.all().order_by("-pub_date")
+    comments = Comment.objects.all()
+    likes = Like.objects.filter(user=user)
+    all_followings = get_followings(user_profile)
+    all_users = UserProfile.objects.all()
+
+    other_user=User.objects.get(username=otheruser)
+    others_profile=UserProfile.objects.get(user=other_user)
+
+    
+
+
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "posts": posts,
+        "comments": comments,
+        "likes": likes,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+        "others_profile":others_profile,
+    }
+
+    return render(request,"othersprofile.html",context)

@@ -15,4 +15,6 @@ urlpatterns = [
     path("<username>/edit_profile/", views.edit_profile, name="edit_profile"),
     path("<username>/notifications/", views.notifications_page, name="notifications_page"),
     path("<username>/chat/", views.chat_page, name="chat_page"),
+    path("<otheruser>/others_profile_page/", views.others_profile_page, name="others_profile_page"),
+
 ]
