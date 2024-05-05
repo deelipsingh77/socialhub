@@ -170,14 +170,14 @@
                       {% if like.post.id == post.id %}
                         <span class="text-xl flex flex-row gap-2">
                           <a href="/{{ post.id }}/like_post/">
-                            <i style="color: red" class="fa-regular fa-heart"></i> </a
+                            <i class="fa-regular fa-heart text-red-500"></i> </a
                           >{{ post.likes_count }}
                         </span>
                       {% endif %}
                     {% endfor %}
                     <span class="text-xl flex flex-row gap-2">
                       <a href="/{{ post.id }}/like_post/">
-                        <i style="color: black" class="fa-regular fa-heart"></i> </a
+                        <i class="fa-regular fa-heart text-black hover:text-red-500"></i> </a
                       >{{ post.likes_count }}
                     </span>
                   </div>
@@ -194,7 +194,7 @@
                   >
                     <i
                       id="comment-button"
-                      class="fa-regular fa-comment-dots text-xl"
+                      class="fa-regular fa-comment-dots text-xl hover:text-blue-500"
                     ></i>
                   </div>
                 </div>
@@ -216,11 +216,13 @@
                               {% endif %}
                             {% endfor %}
                           </div>
-                          <div>
-                            <span class="font-semibold"
-                              >{{ comment.author.username }}</span
-                            >
-                            <p class="text-sm">{{ comment.content }}</p>
+                          <div class="w-full flex flex-row justify-between">
+                            <div>
+                              <span class="font-semibold"
+                                >{{ comment.author.username }}</span
+                              >
+                              <p class="text-sm">{{ comment.content }}</p>
+                            </div>
                             <span class="text-xs"
                               >{{ comment.created_at|timesince }} ago</span
                             >
@@ -242,12 +244,12 @@
                         type="text"
                         name="content"
                         id="content"
-                        class="w-full border border-gray-400 px-2 py-1 rounded"
+                        class="w-full bg-slate-200 px-5 py-3 rounded-3xl"
                         placeholder="Write a comment..."
                       />
                       <button
                         type="submit"
-                        class="bg-blue-500 text-white px-4 py-1 rounded mt-2"
+                        class="bg-blue-500 text-white px-4 py-1 rounded-3xl hover:bg-green-500 mt-2"
                       >
                         Comment
                       </button>
