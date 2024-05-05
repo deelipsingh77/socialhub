@@ -53,10 +53,9 @@ def my_profile(request, username):
     all_followings = get_followings(user_profile)
     all_users = UserProfile.objects.all()
 
-    following_count = user_profile.followers.count()
-    followers_count = request.user.following.count()
+  
 
-    # test code
+ 
 
     context = {
         "user": user,
@@ -66,8 +65,6 @@ def my_profile(request, username):
         "likes": likes,
         "following_profiles": all_followings,
         "all_users": all_users,
-        "following_count": following_count,
-        "followers_count": followers_count,
     }
 
     return render(request, "myprofile.html", context)
