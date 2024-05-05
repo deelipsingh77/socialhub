@@ -68,11 +68,11 @@
       {% comment %} side nav {% endcomment %}
       <section
         id="navigation"
-        class="h-[80vh] w-[25vw] flex flex-col justify-between pl-10 gap-14 pb-9 fixed left-3"
+        class="h-[80vh] w-[20vw] flex flex-col justify-between pl-10 gap-14 pb-10 fixed left-3"
       >
         <nav class="flex flex-col gap-3">
           <a
-            class="text-lg flex items-center gap-3"
+            class="text-lg flex items-center gap-3 hover:bg-green-200"
             href="/{{ user.username }}/home"
           >
             <span
@@ -133,7 +133,7 @@
         </div>
       </section>
 
-      <section class="ml-[25vw] w-[45vw] flex justify-center flex-col">
+      <section class="ml-[20vw] w-[45vw] flex justify-center flex-col">
         {% block content %}
           {% if posts %}
             {% for post in posts %}
@@ -249,7 +249,7 @@
                       />
                       <button
                         type="submit"
-                        class="bg-blue-500 text-white px-4 py-1 rounded-3xl hover:bg-green-500 mt-2"
+                        class="bg-blue-500 text-white px-4 py-1 rounded-3xl hover:bg-blue-600 mt-2"
                       >
                         Comment
                       </button>
@@ -264,7 +264,7 @@
         {% endblock content %}
       </section>
 
-      <section id="right_most" class="w-[25vw] pl-[2vw] h-[80vh]">
+      <section id="right_most" class="w-[25vw] pl-16 h-[80vh]">
         <h2 class="text-teal-900 text-xl font-semibold mb-2">Followings</h2>
         {% if following_profiles %} 
           {% for following_profile in following_profiles %}
