@@ -30,6 +30,9 @@ def home(request, username):
     all_followings = get_followings(user_profile)
     all_users = UserProfile.objects.all()
 
+    #test code
+    
+
     context = {
         "user": user,
         "user_profile": user_profile,
@@ -94,7 +97,7 @@ def create_post(request, username):
         "user": user,
         "user_profile": user_profile,
         "following_profiles": all_followings,
-        "all_users":all_users,
+        "all_users": all_users,
     }
     return render(request, "create_post.html", context)
 

@@ -1,144 +1,337 @@
 {% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      SocialHub-{% block title %}
-        Home
-      {% endblock %}
-    </title>
+    <title>SocialHub - {% block title %} Home {% endblock %}</title>
+
     {% comment %}Font family{% endcomment %}
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
       * {
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
       }
     </style>
-    {% comment %}fontawesome cdn{% endcomment %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    {% comment %}fontawesome cdn{% endcomment %}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-slate-200 h-screen">
-    <header class="bg-slate-200 p-3 h-[15vh] fixed top-0 w-full z-10 ">
-      <div id="top" class="bg-white rounded-tl-[2.5rem] rounded-tr-[2.5rem] flex justify-between p-5 px-20">
+    <header class="bg-slate-200 p-3 h-[15vh] fixed top-0 w-full z-10">
+      <div
+        id="top"
+        class="bg-white rounded-tl-[2.5rem] rounded-tr-[2.5rem] flex justify-between p-5 px-20"
+      >
         <div id="logo">
-          
-          <h1 class="text-2xl"><span class="text-red-500"><i class="fa-brands fa-gg-circle"></i> S</span>ocial<span class="text-red-500">H</span>ub</h1>
+          <h1 class="text-2xl">
+            <span class="text-red-500"
+              ><i class="fa-brands fa-gg-circle"></i> S</span
+            >ocial<span class="text-red-500">H</span>ub
+          </h1>
         </div>
         <div id="profile" class="flex gap-6">
-          <div id="notification" class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center">
+          <div
+            id="notification"
+            class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center"
+          >
             <i class="fa-solid fa-bell"></i>
           </div>
-          <div id="chat" class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center">
+          <div
+            id="chat"
+            class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center"
+          >
             <i class="fa-solid fa-message"></i>
           </div>
-          <div id="profile" class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden">
-            <img class="rounded-full" src="{{ user_profile.profile_pic.url }}" alt="" />
+          <div
+            id="profile"
+            class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden"
+          >
+            <img
+              class="rounded-full"
+              src="{{ user_profile.profile_pic.url }}"
+              alt=""
+            />
           </div>
         </div>
       </div>
     </header>
 
     <main class="p-3 relative flex mt-[15vh]">
-
       {% comment %} side nav {% endcomment %}
-      <section id="navigation" class="h-[80vh] w-[25vw] flex flex-col justify-between pl-10 gap-14 pb-9 fixed left-3">
+      <section
+        id="navigation"
+        class="h-[80vh] w-[25vw] flex flex-col justify-between pl-10 gap-14 pb-9 fixed left-3"
+      >
         <nav class="flex flex-col gap-3">
-          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/home">
-            <span class="h-9 w-9 rounded-full bg-blue-200 p-1 flex justify-center items-center"><i class="fa-solid fa-house"></i></span>
+          <a
+            class="text-lg flex items-center gap-3"
+            href="/{{ user.username }}/home"
+          >
+            <span
+              class="h-9 w-9 rounded-full bg-blue-200 p-1 flex justify-center items-center"
+              ><i class="fa-solid fa-house"></i
+            ></span>
             <span>Home</span>
           </a>
-          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/search">
-            <span class="h-9 w-9 rounded-full bg-green-200 p-1 flex justify-center items-center"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <a
+            class="text-lg flex items-center gap-3"
+            href="/{{ user.username }}/search"
+          >
+            <span
+              class="h-9 w-9 rounded-full bg-green-200 p-1 flex justify-center items-center"
+              ><i class="fa-solid fa-magnifying-glass"></i
+            ></span>
             <span>Explore</span>
           </a>
-          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/my_posts">
-            <span class="h-9 w-9 rounded-full bg-orange-200 p-1 flex justify-center items-center"><i class="fa-solid fa-people-group"></i></span>
+          <a
+            class="text-lg flex items-center gap-3"
+            href="/{{ user.username }}/my_posts"
+          >
+            <span
+              class="h-9 w-9 rounded-full bg-orange-200 p-1 flex justify-center items-center"
+              ><i class="fa-solid fa-people-group"></i
+            ></span>
             <span>My Posts</span>
           </a>
-          <a class=" text-lg flex items-center gap-3" href="#">
-            <span class="h-9 w-9 rounded-full bg-purple-200 p-1 flex justify-center items-center"><i class="fa-solid fa-floppy-disk"></i></span>
+          <a class="text-lg flex items-center gap-3" href="#">
+            <span
+              class="h-9 w-9 rounded-full bg-purple-200 p-1 flex justify-center items-center"
+              ><i class="fa-solid fa-floppy-disk"></i
+            ></span>
             <span>Profile</span>
           </a>
-          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/create_post">
-            <span class="h-9 w-9 rounded-full bg-cyan-200 p-1 flex justify-center items-center"><i class="fa-solid fa-square-plus"></i></span>
+          <a
+            class="text-lg flex items-center gap-3"
+            href="/{{ user.username }}/create_post"
+          >
+            <span
+              class="h-9 w-9 rounded-full bg-cyan-200 p-1 flex justify-center items-center"
+              ><i class="fa-solid fa-square-plus"></i
+            ></span>
             <span>Create Post</span>
           </a>
         </nav>
         <div id="logout">
-          <a class="active_page flex items-center gap-3" href="{% url 'logout' %}">
-            <span class="h-9 w-9 rounded-full bg-red-500 p-1 flex justify-center items-center"><i class="text-white fa-solid fa-right-from-bracket"></i></span>
+          <a
+            class="active_page flex items-center gap-3"
+            href="{% url 'logout' %}"
+          >
+            <span
+              class="h-9 w-9 rounded-full bg-red-500 p-1 flex justify-center items-center"
+              ><i class="text-white fa-solid fa-right-from-bracket"></i
+            ></span>
             <span>Logout</span>
           </a>
         </div>
       </section>
 
-      <section class="ml-[25vw]  w-[45vw] flex justify-center  ">
-       {% block content %}
+      <section class="ml-[25vw] w-[45vw] flex justify-center flex-col">
+        {% block content %}
+          {% if posts %}
+            {% for post in posts %}
+              <div class="bg-white text-gray-800 rounded-3xl shadow-lg p-6 mb-8">
+                <div class="flex items-center mb-2">
+                  {% for posting_user in all_users %}
+                    {% if post.author.username == posting_user.user.username %}
+                      <img
+                        src="{{ posting_user.profile_pic.url }}"
+                        alt="{{ post.author.username }}"
+                        class="w-12 h-12 rounded-full mr-4"
+                      />
+                    {% endif %}
+                  {% endfor %}
+                  <div>
+                    <h2 class="text-lg font-semibold">{{ post.author.username }}</h2>
+                    <p class="text-sm">{{ post.pub_date|timesince }} ago</p>
+                  </div>
+                </div>
+                <div id="texts" class="my-6">
+                  <h3 class="text-2xl font-normal">{{ post.title }}</h3>
+                  <p class="text-sm mb-2">{{ post.content|truncatechars:50 }}</p>
+                </div>
+                {% if post.image %}
+                  <img
+                    src="{{ post.image.url }}"
+                    alt="{{ post.title }} image"
+                    class="w-full h-auto mb-4 rounded-lg"
+                  />
+                {% endif %}
+                <div class="interaction-buttons | flex flex-row justify-between">
+                  <div class="like-container | flex items-center space-x-2">
+                    {% for like in likes %}
+                      {% if like.post.id == post.id %}
+                        <span class="text-xl flex flex-row gap-2">
+                          <a href="/{{ post.id }}/like_post/">
+                            <i style="color: red" class="fa-regular fa-heart"></i> </a
+                          >{{ post.likes_count }}
+                        </span>
+                      {% endif %}
+                    {% endfor %}
+                    <span class="text-xl flex flex-row gap-2">
+                      <a href="/{{ post.id }}/like_post/">
+                        <i style="color: black" class="fa-regular fa-heart"></i> </a
+                      >{{ post.likes_count }}
+                    </span>
+                  </div>
 
+                  <div
+                    id="comment-button-container"
+                    onclick="
+                                if(this.parentNode.nextElementSibling.style.display == 'block'){
+                                  this.parentNode.nextElementSibling.style.display = 'none';
+                                } else {
+                                  this.parentNode.nextElementSibling.style.display = 'block';
+                                }
+                              "
+                  >
+                    <i
+                      id="comment-button"
+                      class="fa-regular fa-comment-dots text-xl"
+                    ></i>
+                  </div>
+                </div>
 
-       {% endblock content %}
-       
+                <div id="post-card-content" style="display: none">
+                  <div class="comment-section | mt-4">
+                    <ul>
+                      {% for comment in comments %}
+                        {% if comment.post.id == post.id %}
+                        <div class="flex items-center space-x-2 mb-2">
+                          <div class="flex-shrink-0">
+                            {% for commenting_user in all_users %}
+                              {% if comment.author.username == commenting_user.user.username %}
+                                <img
+                                  src="{{ commenting_user.profile_pic.url }}"
+                                  alt="{{ comment.author.username }}"
+                                  class="w-8 h-8 rounded-full"
+                                />
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+                          <div>
+                            <span class="font-semibold"
+                              >{{ comment.author.username }}</span
+                            >
+                            <p class="text-sm">{{ comment.content }}</p>
+                            <span class="text-xs"
+                              >{{ comment.created_at|timesince }} ago</span
+                            >
+                          </div>
+                        </div>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+
+                  <div class="mt-4">
+                    <form
+                      action="/{{ post.id }}/comment_post/"
+                      method="POST"
+                      class="mt-4"
+                    >
+                      {% csrf_token %}
+                      <input
+                        type="text"
+                        name="content"
+                        id="content"
+                        class="w-full border border-gray-400 px-2 py-1 rounded"
+                        placeholder="Write a comment..."
+                      />
+                      <button
+                        type="submit"
+                        class="bg-blue-500 text-white px-4 py-1 rounded mt-2"
+                      >
+                        Comment
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+          <div class="text-white">No posts available</div>
+          {% endif %}
+        {% endblock content %}
       </section>
 
+      <section id="right_most" class="w-[25vw] pl-[2vw] h-[80vh]">
+        <h2 class="text-teal-900 text-xl font-semibold mb-2">Followings</h2>
+        {% if following_profiles %} 
+          {% for following_profile in following_profiles %}
 
-      <section id="right_most" class="w-[25vw] pl-[2vw] h-[80vh] ">
-        <h2 class=" text-teal-900 text-xl font-semibold mb-2">Followings</h2>
-        {% if following_profiles %}
-        {% for following_profile in following_profiles %}
-        
-        <div class="w-full flex bg-white px-4 py-4 rounded-md mb-5 ">
-          <div id="profile" class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden">
-            <img class="rounded-full" src="{{following_profile.profile_pic.url}}" alt="" />
-          </div>
-          <div class="flex justify-between w-full ml-2">
-            <h4>{{following_profile.user.username}}</h4>
-            <a href="/{{following_profile.user.username}}/follow_user">
-                <button class='follow-button px-2 text-sm py-1 bg-blue-400  text-white shadow-lg  rounded-3xl' type="submit">
-                  Unfollow
-                </button>
-            </a>
-        </div>
-      </div>
-        {% endfor %}
+            <div class="w-full flex bg-white px-4 py-4 rounded-md mb-5">
+              <div
+                id="profile"
+                class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden"
+              >
+                <img
+                  class="rounded-full"
+                  src="{{following_profile.profile_pic.url}}"
+                  alt=""
+                />
+              </div>
+              <div class="flex justify-between w-full ml-2">
+                <h4>{{following_profile.user.username}}</h4>
+                <a href="/{{following_profile.user.username}}/follow_user">
+                  <button
+                    class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl"
+                    type="submit"
+                  >
+                    Unfollow
+                  </button>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
         {% else %}
-        <h3 class="ml-5 mb-10 text-red-900 mt-2">You are not following anyone</h3>
+          <h3 class="ml-5 mb-10 text-red-900 mt-2">
+            You are not following anyone
+          </h3>
         {% endif %}
-          <div class="users flex flex-col gap-3  ">
-            <h1 class=" text-teal-900 text-xl font-semibold">Suggested for you</h1>
-            {% for user in all_users %}
+        <div class="users flex flex-col gap-3">
+          <h1 class="text-teal-900 text-xl font-semibold">Suggested for you</h1>
+          {% for user in all_users %}
             {% if user not in following_profiles %}
-            <div class="w-full flex bg-white px-4 py-4 rounded-md ">
-                <div id="profile" class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden">
-                  <img class="rounded-full" src="{{ user.profile_pic.url }}" alt="" />
+              <div class="w-full flex bg-white px-4 py-4 rounded-md">
+                <div
+                  id="profile"
+                  class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden"
+                >
+                  <img
+                    class="rounded-full"
+                    src="{{ user.profile_pic.url }}"
+                    alt=""
+                  />
                 </div>
                 <div class="flex justify-between w-full ml-2">
                   <h4>{{user.user.username}}</h4>
                   <a href="/{{user.user.username}}/follow_user">
-                      <button class='follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg  rounded-3xl' type="submit">
-                          {% for following_profile in following_profiles %}
-                              {% if user == following_profile %}
-                              Unfollow 
-                              {% endif %}
-                          {% endfor %}
-                      </button>
+                    <button
+                      class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl"
+                      type="submit"
+                    >
+                      {% for following_profile in following_profiles %}
+                        {% if user == following_profile %}Unfollow{% endif %}
+                      {% endfor %}
+                    </button>
                   </a>
+                </div>
               </div>
-            </div>
             {% endif %}
           {% endfor %}
-      </div>
-        
-    </section>
-
-
+        </div>
+      </section>
     </main>
-    {% block scripts %}
-    <script src="{% static "js/home.js" %}"></script>
+    {% block scripts %} 
+      <script src="{% static "js/home.js" %}"></script>
     {% endblock scripts %}
   </body>
 </html>

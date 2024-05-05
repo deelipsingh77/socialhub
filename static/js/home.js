@@ -1,4 +1,5 @@
 let likeContainers = document.getElementsByClassName("like-container");
+
 for (let likeContainer of likeContainers) {
   if (likeContainer.childElementCount == 2) {
     likeContainer.lastElementChild.style.display = "none";
@@ -11,3 +12,4 @@ for (let followButton of followButtons) {
     followButton.innerText = "Follow";
   }
 }
+
