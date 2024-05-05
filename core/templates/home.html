@@ -46,7 +46,7 @@
     <main class="p-3 relative flex mt-[15vh]">
 
       {% comment %} side nav {% endcomment %}
-      <section id="navigation" class="h-[80vh] w-[25vw] flex flex-col justify-between ml-9 gap-14 pb-9 fixed left-3">
+      <section id="navigation" class="h-[80vh] w-[25vw] flex flex-col justify-between pl-10 gap-14 pb-9 fixed left-3">
         <nav class="flex flex-col gap-3">
           <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/home">
             <span class="h-9 w-9 rounded-full bg-blue-200 p-1 flex justify-center items-center"><i class="fa-solid fa-house"></i></span>
@@ -77,7 +77,7 @@
         </div>
       </section>
 
-      <section class="ml-[25vw] mr-[25vw] w-[50vw] flex justify-center">
+      <section class="ml-[25vw]  w-[45vw] flex justify-center  ">
        {% block content %}
 
 
@@ -86,7 +86,7 @@
       </section>
 
 
-      <section id="right_most" class="w-[40vw] mr-10 h-[80vh]">
+      <section id="right_most" class="w-[25vw] pl-[2vw] h-[80vh] ">
         <h2 class=" text-teal-900 text-xl font-semibold mb-2">Followings</h2>
         {% if following_profiles %}
         {% for following_profile in following_profiles %}
@@ -98,7 +98,7 @@
           <div class="flex justify-between w-full ml-2">
             <h4>{{following_profile.user.username}}</h4>
             <a href="/{{following_profile.user.username}}/follow_user">
-                <button class='follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg  rounded-3xl' type="submit">
+                <button class='follow-button px-2 text-sm py-1 bg-blue-400  text-white shadow-lg  rounded-3xl' type="submit">
                   Unfollow
                 </button>
             </a>
