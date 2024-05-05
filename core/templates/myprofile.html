@@ -1,0 +1,25 @@
+{% extends 'home.html' %}
+
+{% block title %}
+  My-Profile
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <img class="h-56 w-56 rounded-full object-cover object-top" src="{{ user_profile.profile_pic.url }}" alt="" />
+    </div>
+    <div>
+      <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+      <a href=""><button>Edit Profile</button></a>
+    </div>
+    <div>
+      <h3>1 post</h3>
+      <h3>{{followers_count}}  followers</h3>
+      <h3>{{following_count}}  following</h3>
+    </div>
+    <div>
+      <h4>{{ user.username }}</h4>
+    </div>
+  </div>
+{% endblock %}

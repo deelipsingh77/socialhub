@@ -101,12 +101,12 @@
             ></span>
             <span>My Posts</span>
           </a>
-          <a class="text-lg flex items-center gap-3" href="#">
+          <a class="text-lg flex items-center gap-3" href="/{{ user.username }}/my_profile/">
             <span
               class="h-9 w-9 rounded-full bg-purple-200 p-1 flex justify-center items-center"
               ><i class="fa-solid fa-floppy-disk"></i
             ></span>
-            <span>Profile</span>
+            <span>My Profile</span>
           </a>
           <a
             class="text-lg flex items-center gap-3"
@@ -133,7 +133,7 @@
         </div>
       </section>
 
-      <section class="ml-[20vw] w-[45vw] flex justify-center flex-col">
+      <section class="ml-[20vw] w-[45vw] flex  flex-col">
         {% block content %}
           {% if posts %}
             {% for post in posts %}
@@ -170,7 +170,7 @@
                       {% if like.post.id == post.id %}
                         <span class="text-xl flex flex-row gap-2">
                           <a href="/{{ post.id }}/like_post/">
-                            <i class="fa-regular fa-heart text-red-500"></i> </a
+                            <i class="fa-solid fa-heart text-red-500"></i> </a
                           >{{ post.likes_count }}
                         </span>
                       {% endif %}
@@ -201,10 +201,10 @@
 
                 <div id="post-card-content" style="display: none">
                   <div class="comment-section | mt-4">
-                    <ul>
+                    <ul class="h-[150px] overflow-y-scroll">
                       {% for comment in comments %}
                         {% if comment.post.id == post.id %}
-                        <div class="flex items-center space-x-2 mb-2">
+                        <div class="flex  space-x-2 mb-2">
                           <div class="flex-shrink-0">
                             {% for commenting_user in all_users %}
                               {% if comment.author.username == commenting_user.user.username %}
@@ -268,7 +268,6 @@
         <h2 class="text-teal-900 text-xl font-semibold mb-2">Followings</h2>
         {% if following_profiles %} 
           {% for following_profile in following_profiles %}
-
             <div class="w-full flex bg-white px-4 py-4 rounded-md mb-5">
               <div
                 id="profile"
@@ -301,32 +300,34 @@
         <div class="users flex flex-col gap-3">
           <h1 class="text-teal-900 text-xl font-semibold">Suggested for you</h1>
           {% for user in all_users %}
-            {% if user not in following_profiles %}
-              <div class="w-full flex bg-white px-4 py-4 rounded-md">
-                <div
-                  id="profile"
-                  class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden"
-                >
-                  <img
-                    class="rounded-full"
-                    src="{{ user.profile_pic.url }}"
-                    alt=""
-                  />
+            {% if user.user != request.user %}
+              {% if user not in following_profiles %}
+                <div class="w-full flex bg-white px-4 py-4 rounded-md">
+                  <div
+                    id="profile"
+                    class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden"
+                  >
+                    <img
+                      class="rounded-full"
+                      src="{{ user.profile_pic.url }}"
+                      alt=""
+                    />
+                  </div>
+                  <div class="flex justify-between w-full ml-2">
+                    <h4>{{user.user.username}}</h4>
+                    <a href="/{{user.user.username}}/follow_user">
+                      <button
+                        class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl"
+                        type="submit"
+                      >
+                        {% for following_profile in following_profiles %}
+                          {% if user == following_profile %}Unfollow{% endif %}
+                        {% endfor %}
+                      </button>
+                    </a>
+                  </div>
                 </div>
-                <div class="flex justify-between w-full ml-2">
-                  <h4>{{user.user.username}}</h4>
-                  <a href="/{{user.user.username}}/follow_user">
-                    <button
-                      class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl"
-                      type="submit"
-                    >
-                      {% for following_profile in following_profiles %}
-                        {% if user == following_profile %}Unfollow{% endif %}
-                      {% endfor %}
-                    </button>
-                  </a>
-                </div>
-              </div>
+              {% endif %}
             {% endif %}
           {% endfor %}
         </div>

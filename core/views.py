@@ -31,7 +31,8 @@ def home(request, username):
     all_users = UserProfile.objects.all()
 
     #test code
-    
+
+   
 
     context = {
         "user": user,
@@ -44,6 +45,36 @@ def home(request, username):
     }
 
     return render(request, "home.html", context)
+
+@login_required(login_url="/login/")
+def my_profile(request, username):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    posts = Post.objects.all()
+    comments = Comment.objects.all()
+    likes = Like.objects.filter(user=user)
+    all_followings = get_followings(user_profile)
+    all_users = UserProfile.objects.all()
+
+
+    following_count= user_profile.followers.count()
+    followers_count=request.user.following.count()
+
+    #test code
+
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "posts": posts,
+        "comments": comments,
+        "likes": likes,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+        "following_count":following_count,
+        "followers_count":followers_count,
+    }
+
+    return render(request, "myprofile.html", context)
 
 
 @login_required(login_url="/login/")
@@ -67,6 +98,11 @@ def my_posts(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
     posts = Post.objects.filter(author=user).order_by("-pub_date")
+    comments = Comment.objects.all()
+    likes = Like.objects.filter(user=user)
+    all_followings = get_followings(user_profile)
+    all_users = UserProfile.objects.all()
+
 
     all_followings = get_followings(user_profile)
     context = {
@@ -74,6 +110,9 @@ def my_posts(request, username):
         "user_profile": user_profile,
         "user": user,
         "following_profiles": all_followings,
+         "comments": comments,
+        "likes": likes,
+        "all_users": all_users,
     }
     return render(request, "posts.html", context)
 

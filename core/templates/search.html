@@ -1,0 +1,39 @@
+{% extends "home.html" %}
+
+{% block title %}Explore{% endblock title %}
+
+
+{% block content %}
+
+{% comment %} <form  action="">
+    <input type="text" style="color:black" name="search" id="search">
+    <button style="color:black" type="submit" >Search</button>
+</form> {% endcomment %}
+
+<div class="users">
+    {% for user in all_users %}
+        {% if user.user != request.user %}
+            <div class="bg-white rounded-3xl mb-5 p-5 flex justify-between">
+                <div class="flex gap-4">
+                    <img class="rounded-3xl w-24 object-cover object-top h-32"   src="{{user.profile_pic.url}}" alt="" >
+                    <h4  class=" text-xl font-semibold text-green-900">{{user.user.username}}</h4>
+                    <p></p>
+                </div>
+                <div>
+                    <a href="/{{user.user.username}}/follow_user">
+                        <button class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl" type="submit">
+                            {% for following_profile in following_profiles %}
+                                {% if user == following_profile %}
+                                Unfollow 
+                                {% endif %}
+                            {% endfor %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock content %}
+

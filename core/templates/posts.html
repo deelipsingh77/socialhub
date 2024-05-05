@@ -1,0 +1,134 @@
+{% extends "home.html" %}
+
+{% block title %}My-Posts{% endblock title %}
+
+{% block content %}
+{% if posts %}
+{% for post in posts %}
+  <div class="bg-white text-gray-800 rounded-3xl shadow-lg p-6 mb-8">
+    <div class="flex items-center mb-2">
+      {% for posting_user in all_users %}
+        {% if post.author.username == posting_user.user.username %}
+          <img
+            src="{{ posting_user.profile_pic.url }}"
+            alt="{{ post.author.username }}"
+            class="w-12 h-12 rounded-full mr-4"
+          />
+        {% endif %}
+      {% endfor %}
+      <div>
+        <h2 class="text-lg font-semibold">{{ post.author.username }}</h2>
+        <p class="text-sm">{{ post.pub_date|timesince }} ago</p>
+      </div>
+    </div>
+    <div id="texts" class="my-6">
+      <h3 class="text-2xl font-normal">{{ post.title }}</h3>
+      <p class="text-sm mb-2">{{ post.content|truncatechars:50 }}</p>
+    </div>
+    {% if post.image %}
+      <img
+        src="{{ post.image.url }}"
+        alt="{{ post.title }} image"
+        class="w-full h-auto mb-4 rounded-lg"
+      />
+    {% endif %}
+    <div class="interaction-buttons | flex flex-row justify-between">
+      <div class="like-container | flex items-center space-x-2">
+        {% for like in likes %}
+          {% if like.post.id == post.id %}
+            <span class="text-xl flex flex-row gap-2">
+              <a href="/{{ post.id }}/like_post/">
+                <i class="fa-solid fa-heart text-red-500"></i> </a
+              >{{ post.likes_count }}
+            </span>
+          {% endif %}
+        {% endfor %}
+        <span class="text-xl flex flex-row gap-2">
+          <a href="/{{ post.id }}/like_post/">
+            <i class="fa-regular fa-heart text-black hover:text-red-500"></i> </a
+          >{{ post.likes_count }}
+        </span>
+      </div>
+
+      <div
+        id="comment-button-container"
+        onclick="
+                    if(this.parentNode.nextElementSibling.style.display == 'block'){
+                      this.parentNode.nextElementSibling.style.display = 'none';
+                    } else {
+                      this.parentNode.nextElementSibling.style.display = 'block';
+                    }
+                  "
+      >
+        <i
+          id="comment-button"
+          class="fa-regular fa-comment-dots text-xl hover:text-blue-500"
+        ></i>
+      </div>
+    </div>
+
+    <div id="post-card-content" style="display: none">
+      <div class="comment-section | mt-4">
+        <ul class="h-[150px] overflow-y-scroll">
+          {% for comment in comments %}
+            {% if comment.post.id == post.id %}
+            <div class="flex  space-x-2 mb-2">
+              <div class="flex-shrink-0">
+                {% for commenting_user in all_users %}
+                  {% if comment.author.username == commenting_user.user.username %}
+                    <img
+                      src="{{ commenting_user.profile_pic.url }}"
+                      alt="{{ comment.author.username }}"
+                      class="w-8 h-8 rounded-full"
+                    />
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="w-full flex flex-row justify-between">
+                <div>
+                  <span class="font-semibold"
+                    >{{ comment.author.username }}</span
+                  >
+                  <p class="text-sm">{{ comment.content }}</p>
+                </div>
+                <span class="text-xs"
+                  >{{ comment.created_at|timesince }} ago</span
+                >
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="mt-4">
+        <form
+          action="/{{ post.id }}/comment_post/"
+          method="POST"
+          class="mt-4"
+        >
+          {% csrf_token %}
+          <input
+            type="text"
+            name="content"
+            id="content"
+            class="w-full bg-slate-200 px-5 py-3 rounded-3xl"
+            placeholder="Write a comment..."
+          />
+          <button
+            type="submit"
+            class="bg-blue-500 text-white px-4 py-1 rounded-3xl hover:bg-blue-600 mt-2"
+          >
+            Comment
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% else %}
+<div class="text-white">No posts available</div>
+{% endif %}
+
+
+{% endblock content %}
