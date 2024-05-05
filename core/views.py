@@ -27,8 +27,8 @@ def home(request, username):
     posts = Post.objects.all()
     comments = Comment.objects.all()
     likes = Like.objects.filter(user=user)
-
     all_followings = get_followings(user_profile)
+    all_users = UserProfile.objects.all()
 
     context = {
         "user": user,
@@ -37,6 +37,7 @@ def home(request, username):
         "comments": comments,
         "likes": likes,
         "following_profiles": all_followings,
+        "all_users": all_users,
     }
 
     return render(request, "home.html", context)
@@ -78,6 +79,7 @@ def my_posts(request, username):
 def create_post(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+    all_users = UserProfile.objects.all()
     if request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
@@ -92,6 +94,7 @@ def create_post(request, username):
         "user": user,
         "user_profile": user_profile,
         "following_profiles": all_followings,
+        "all_users":all_users,
     }
     return render(request, "create_post.html", context)
 
@@ -139,7 +142,7 @@ def comment_post(request, id):
 
 
 @login_required(login_url="/login/")
-def follow_user(request, username):
+def follow_unfollow_user(request, username):
     to_follow = User.objects.get(username=username)
     user_profile = UserProfile.objects.get(user=request.user)
 

@@ -1,110 +1,143 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <title>
+      SocialHub-{% block title %}
+        Home
+      {% endblock %}
+    </title>
+    {% comment %}Font family{% endcomment %}
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+    {% comment %}fontawesome cdn{% endcomment %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  </head>
 
-  <body>
-    <header class="side_menu">
-      <div class="top">
-        <div class="Profile_name_username">
-          <div class="profile_photo">
-            {% if user_profile.profile_pic %}
-              <img src="{{ user_profile.profile_pic.url }}" alt="hii" height="100%" width="100%" />
-            {% endif %}
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-200 h-screen">
+    <header class="bg-slate-200 p-3 h-[15vh] fixed top-0 w-full z-10 ">
+      <div id="top" class="bg-white rounded-tl-[2.5rem] rounded-tr-[2.5rem] flex justify-between p-5 px-20">
+        <div id="logo">
+          
+          <h1 class="text-2xl"><span class="text-red-500"><i class="fa-brands fa-gg-circle"></i> S</span>ocial<span class="text-red-500">H</span>ub</h1>
+        </div>
+        <div id="profile" class="flex gap-6">
+          <div id="notification" class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center">
+            <i class="fa-solid fa-bell"></i>
           </div>
-          <div class="profile_name">
-            {% if user %}
-              {{ user.username }}
-            {% else %}
-              <p>You are not logged in.</p>
-            {% endif %}
+          <div id="chat" class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center">
+            <i class="fa-solid fa-message"></i>
+          </div>
+          <div id="profile" class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden">
+            <img class="rounded-full" src="{{ user_profile.profile_pic.url }}" alt="" />
           </div>
         </div>
-        <nav>
-          <a class="active_page" href="/{{ user.username }}/home"><i class="fa-solid fa-house"></i>Home</a>
-          <a href="/{{ user.username }}/search"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
-          <a href="/{{ user.username }}/my_posts"><i class="fa-solid fa-people-group"></i>My Posts</a>
-          <a href="#"><i class="fa-solid fa-floppy-disk"></i>Profile</a>
-          <a href="/{{ user.username }}/create_post"><i class="fa-solid fa-square-plus"></i>Create Post</a>
-        </nav>
-      </div>
-      <div class="bottom">
-        <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
       </div>
     </header>
-    <main>
-      <section class="home_content">
-        {% block content %}
-          {% if posts %}
-            {% for post in posts %}
-              <div style="color:white;" class="post-card">
-                {% if post.image %}
-                  <img src="{{ post.image.url }}" alt="{{ post.title }} image" class="post-card-image" width="200" />
-                {% endif %}
-                <div class="post-card-content">
-                  {% comment %} <a href="{% url 'post_detail' post.pk %}"><h3>{{ post.title }}</h3></a> {% endcomment %}
-                  <p class="post-card-excerpt">{{ post.content|truncatechars:50 }}</p>
-                  <div class="post-card-info">
-                    <span class="post-card-author">by {{ post.author.username }}</span>
-                    <span class="post-card-date">on {{ post.pub_date }}</span>
-                  </div>
-                  <div>
-                    <ul>
-                      {% for comment in comments %}
-                        {% if comment.post.id == post.id %}
-                          <div>
-                            <span>{{comment.author}}</span>
-                            <span>{{ comment.content }}</span>
-                            <span>{{comment.created_at}}</span>
-                          </div>
-                        {% endif %}
-                      {% endfor %}
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="like-container">
-                      {% for like in likes %}
-                        {% if like.post.id == post.id %}
-                          <span><a href="/{{ post.id }}/like_post/"><i style="color: red;" class="fa-regular fa-heart"></i></a>{{ post.likes_count }}</span>
-                        {% endif %}
-                      {% endfor %} 
-                      <span class='like-icon'><a href="/{{ post.id }}/like_post/"><i style="color: white;" class="fa-regular fa-heart"></i></a> {{ post.likes_count }}</span>
-                    </div>
-                    
-                    <form action="/{{ post.id }}/comment_post/" method="POST">
-                      {% csrf_token %}
-                      <input type="text" name="content" id="content" />
-                      <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          {% else %}
-            <div>No posts available</div>
-          {% endif %}
-          {% endblock %}
-        </section>
-        <section class="right_most">
-          <h2>Followings</h2>
-          {% for following_profile in following_profiles %}
-          <div class="following-card">
-            <img width='100' src="{{following_profile.profile_pic.url}}" alt="">
-            <h4>{{following_profile.user.username}}</h4>
-            <a href="/{{following_profile.user.username}}/follow_user"><button>Unfollow</button></a>
-          </div>
-        {% endfor %}
+
+    <main class="p-3 relative flex mt-[15vh]">
+
+      {% comment %} side nav {% endcomment %}
+      <section id="navigation" class="h-[80vh] w-[25vw] flex flex-col justify-between ml-9 gap-14 pb-9 fixed left-3">
+        <nav class="flex flex-col gap-3">
+          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/home">
+            <span class="h-9 w-9 rounded-full bg-blue-200 p-1 flex justify-center items-center"><i class="fa-solid fa-house"></i></span>
+            <span>Home</span>
+          </a>
+          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/search">
+            <span class="h-9 w-9 rounded-full bg-green-200 p-1 flex justify-center items-center"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <span>Explore</span>
+          </a>
+          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/my_posts">
+            <span class="h-9 w-9 rounded-full bg-orange-200 p-1 flex justify-center items-center"><i class="fa-solid fa-people-group"></i></span>
+            <span>My Posts</span>
+          </a>
+          <a class=" text-lg flex items-center gap-3" href="#">
+            <span class="h-9 w-9 rounded-full bg-purple-200 p-1 flex justify-center items-center"><i class="fa-solid fa-floppy-disk"></i></span>
+            <span>Profile</span>
+          </a>
+          <a class=" text-lg flex items-center gap-3" href="/{{ user.username }}/create_post">
+            <span class="h-9 w-9 rounded-full bg-cyan-200 p-1 flex justify-center items-center"><i class="fa-solid fa-square-plus"></i></span>
+            <span>Create Post</span>
+          </a>
+        </nav>
+        <div id="logout">
+          <a class="active_page flex items-center gap-3" href="{% url 'logout' %}">
+            <span class="h-9 w-9 rounded-full bg-red-500 p-1 flex justify-center items-center"><i class="text-white fa-solid fa-right-from-bracket"></i></span>
+            <span>Logout</span>
+          </a>
+        </div>
       </section>
+
+      <section class="ml-[25vw] mr-[25vw] w-[50vw] flex justify-center">
+       {% block content %}
+
+
+       {% endblock content %}
+       
+      </section>
+
+
+      <section id="right_most" class="w-[40vw] mr-10 h-[80vh]">
+        <h2 class=" text-teal-900 text-xl font-semibold mb-2">Followings</h2>
+        {% if following_profiles %}
+        {% for following_profile in following_profiles %}
+        
+        <div class="w-full flex bg-white px-4 py-4 rounded-md mb-5 ">
+          <div id="profile" class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden">
+            <img class="rounded-full" src="{{following_profile.profile_pic.url}}" alt="" />
+          </div>
+          <div class="flex justify-between w-full ml-2">
+            <h4>{{following_profile.user.username}}</h4>
+            <a href="/{{following_profile.user.username}}/follow_user">
+                <button class='follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg  rounded-3xl' type="submit">
+                  Unfollow
+                </button>
+            </a>
+        </div>
+      </div>
+        {% endfor %}
+        {% else %}
+        <h3 class="ml-5 mb-10 text-red-900 mt-2">You are not following anyone</h3>
+        {% endif %}
+          <div class="users flex flex-col gap-3  ">
+            <h1 class=" text-teal-900 text-xl font-semibold">Suggested for you</h1>
+            {% for user in all_users %}
+            {% if user not in following_profiles %}
+            <div class="w-full flex bg-white px-4 py-4 rounded-md ">
+                <div id="profile" class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden">
+                  <img class="rounded-full" src="{{ user.profile_pic.url }}" alt="" />
+                </div>
+                <div class="flex justify-between w-full ml-2">
+                  <h4>{{user.user.username}}</h4>
+                  <a href="/{{user.user.username}}/follow_user">
+                      <button class='follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg  rounded-3xl' type="submit">
+                          {% for following_profile in following_profiles %}
+                              {% if user == following_profile %}
+                              Unfollow 
+                              {% endif %}
+                          {% endfor %}
+                      </button>
+                  </a>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+      </div>
+        
+    </section>
+
+
     </main>
     {% block scripts %}
-   
     <script src="{% static "js/home.js" %}"></script>
     {% endblock scripts %}
   </body>

@@ -1,23 +1,24 @@
-{% extends "home.html" %} 
+{% extends 'home.html' %}
+
+{% block title %}
+  new-post
+{% endblock %}
 
 {% block content %}
+  <form enctype="multipart/form-data" method="POST" class="max-w-md mx-auto bg-white p-8 ">
+    {% csrf_token %}
 
-        <form  enctype="multipart/form-data" method="POST">
-
-            {% csrf_token %}
-
-            <div>
-                <input style="color:black;" type="text" placeholder="title" name="title" id="title">
-            </div>
-            <div>
-               <textarea style="color:black;" name="content" id="content" placeholder="content"></textarea>
-            </div>
-            <div>
-                <input type="file" placeholder="image" name="image" id="image">
-            </div>
-            <div>
-                <button style="color:black;"  type="submit">create post</button>
-            </div>
-        </form>
-
-{% endblock content %}
+    <div class="mb-4">
+      <input type="text" placeholder="Title" name="title" id="title" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+    </div>
+    <div class="mb-4">
+      <textarea name="content" id="content" placeholder="Content" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"></textarea>
+    </div>
+    <div class="mb-4">
+      <input type="file" placeholder="Image" name="image" id="image" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+    </div>
+    <div>
+      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Create Post</button>
+    </div>
+  </form>
+{% endblock %}
