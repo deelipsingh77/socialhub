@@ -1,25 +1,30 @@
 {% extends 'home.html' %}
 
-{% block title %}
-  My-Profile
-{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block content %}
-  <div>
-    <div>
+  <div class="flex flex-row w-full gap-3">
+    <div class="">
       <img class="h-56 w-56 rounded-full object-cover object-top" src="{{ user_profile.profile_pic.url }}" alt="" />
     </div>
-    <div>
-      <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-      <a href=""><button>Edit Profile</button></a>
-    </div>
-    <div>
-      <h3>1 post</h3>
-      <h3>{{followers_count}}  followers</h3>
-      <h3>{{following_count}}  following</h3>
-    </div>
-    <div>
-      <h4>{{ user.username }}</h4>
+    <div class="details-container | w-[70%] flex flex-col justify-around">
+      <div class="user-details-container">
+        <div class="name-field | flex flex-row justify-between">
+          <h1 class="text-3xl">{{ user.first_name }} {{ user.last_name }}</h1>
+          <a href="/{{ user.username }}/edit_profile"><button class="px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl">Edit Profile</button></a>
+        </div>
+        <div>
+          <h4 class="text-md">@{{ user.username }}</h4>
+        </div>
+        <div>
+          <p class="text-sm">{{ user.bio }}Nothing Special</p>
+        </div>
+      </div>
+      <div class="engagement-details-container | flex flex-row justify-around">
+        <h3>1 post</h3>
+        <h3>{{followers_count}}  followers</h3>
+        <h3>{{following_count}}  following</h3>
+      </div>
     </div>
   </div>
 {% endblock %}

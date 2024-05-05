@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SocialHub - {% block title %} Home {% endblock %}</title>
+    <title>SocialHub - {% block title %}Home{% endblock %}</title>
 
     {% comment %}Font family{% endcomment %}
     <style>
@@ -38,27 +38,33 @@
           </h1>
         </div>
         <div id="profile" class="flex gap-6">
-          <div
+          <a href="/{{user.username}}/notifications/">
+            <div
             id="notification"
             class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center"
-          >
-            <i class="fa-solid fa-bell"></i>
-          </div>
-          <div
-            id="chat"
-            class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center"
-          >
-            <i class="fa-solid fa-message"></i>
-          </div>
+            >
+              <i class="fa-solid fa-bell"></i>
+            </div>
+          </a>
+          <a href="/{{user.username}}/chat/">
+            <div
+              id="chat"
+              class="h-9 w-9 rounded-full bg-slate-200 p-1 flex justify-center items-center"
+            >
+              <i class="fa-solid fa-message"></i>
+            </div>
+          </a>
           <div
             id="profile"
             class="h-9 w-9 object-top rounded-full bg-slate-200 overflow-hidden"
           >
-            <img
-              class="rounded-full"
-              src="{{ user_profile.profile_pic.url }}"
-              alt=""
-            />
+            <a href="/{{ user.username }}/my_profile/">
+              <img
+                class="rounded-full"
+                src="{{ user_profile.profile_pic.url }}"
+                alt=""
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -68,11 +74,11 @@
       {% comment %} side nav {% endcomment %}
       <section
         id="navigation"
-        class="h-[80vh] w-[20vw] flex flex-col justify-between pl-10 gap-14 pb-10 fixed left-3"
+        class="h-[80vh] w-[20vw] flex flex-col justify-between pl-10 gap-14 pb-10 fixed left-6"
       >
         <nav class="flex flex-col gap-3">
           <a
-            class="text-lg flex items-center gap-3 hover:bg-green-200"
+            class="text-lg flex items-center gap-3"
             href="/{{ user.username }}/home"
           >
             <span
@@ -133,7 +139,7 @@
         </div>
       </section>
 
-      <section class="ml-[20vw] w-[45vw] flex  flex-col">
+      <section class="ml-[23vw] w-[45vw] flex  flex-col">
         {% block content %}
           {% if posts %}
             {% for post in posts %}
@@ -201,33 +207,33 @@
 
                 <div id="post-card-content" style="display: none">
                   <div class="comment-section | mt-4">
-                    <ul class="h-[150px] overflow-y-scroll">
+                    <ul class="max-h-36 overflow-y-scroll">
                       {% for comment in comments %}
                         {% if comment.post.id == post.id %}
-                        <div class="flex  space-x-2 mb-2">
-                          <div class="flex-shrink-0">
-                            {% for commenting_user in all_users %}
-                              {% if comment.author.username == commenting_user.user.username %}
-                                <img
-                                  src="{{ commenting_user.profile_pic.url }}"
-                                  alt="{{ comment.author.username }}"
-                                  class="w-8 h-8 rounded-full"
-                                />
-                              {% endif %}
-                            {% endfor %}
-                          </div>
-                          <div class="w-full flex flex-row justify-between">
-                            <div>
-                              <span class="font-semibold"
-                                >{{ comment.author.username }}</span
-                              >
-                              <p class="text-sm">{{ comment.content }}</p>
+                          <div class="flex space-x-2 mb-2">
+                            <div class="flex-shrink-0">
+                              {% for commenting_user in all_users %}
+                                {% if comment.author.username == commenting_user.user.username %}
+                                  <img
+                                    src="{{ commenting_user.profile_pic.url }}"
+                                    alt="{{ comment.author.username }}"
+                                    class="w-8 h-8 rounded-full"
+                                  />
+                                {% endif %}
+                              {% endfor %}
                             </div>
-                            <span class="text-xs"
-                              >{{ comment.created_at|timesince }} ago</span
-                            >
+                            <div class="w-full flex flex-row justify-between">
+                              <div>
+                                <span class="font-semibold"
+                                  >{{ comment.author.username }}</span
+                                >
+                                <p class="text-sm">{{ comment.content }}</p>
+                              </div>
+                              <span class="text-xs"
+                                >{{ comment.created_at|timesince }} ago</span
+                              >
+                            </div>
                           </div>
-                        </div>
                         {% endif %}
                       {% endfor %}
                     </ul>
@@ -264,7 +270,7 @@
         {% endblock content %}
       </section>
 
-      <section id="right_most" class="w-[25vw] pl-16 h-[80vh]">
+      <section id="right_most" class="w-[25vw] pl-20 h-[80vh]">
         <h2 class="text-teal-900 text-xl font-semibold mb-2">Followings</h2>
         {% if following_profiles %} 
           {% for following_profile in following_profiles %}
@@ -283,7 +289,7 @@
                 <h4>{{following_profile.user.username}}</h4>
                 <a href="/{{following_profile.user.username}}/follow_user">
                   <button
-                    class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl"
+                    class="follow-button px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl"
                     type="submit"
                   >
                     Unfollow
@@ -317,7 +323,7 @@
                     <h4>{{user.user.username}}</h4>
                     <a href="/{{user.user.username}}/follow_user">
                       <button
-                        class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl"
+                        class="follow-button px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl"
                         type="submit"
                       >
                         {% for following_profile in following_profiles %}

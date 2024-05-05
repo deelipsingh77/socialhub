@@ -1,6 +1,6 @@
 {% extends "home.html" %}
 
-{% block title %}My-Posts{% endblock title %}
+{% block title %}My Posts{% endblock title %}
 
 {% block content %}
 {% if posts %}
@@ -69,7 +69,7 @@
 
     <div id="post-card-content" style="display: none">
       <div class="comment-section | mt-4">
-        <ul class="h-[150px] overflow-y-scroll">
+        <ul class="max-h-40 overflow-y-scroll">
           {% for comment in comments %}
             {% if comment.post.id == post.id %}
             <div class="flex  space-x-2 mb-2">

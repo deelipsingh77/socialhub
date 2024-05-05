@@ -12,4 +12,7 @@ urlpatterns = [
     path("<id>/like_post/", views.like_post, name="like_post"),
     path("<id>/comment_post/", views.comment_post, name="comment_post"),
     path("<username>/follow_user/", views.follow_unfollow_user, name="follow_user"),
+    path("<username>/edit_profile/", views.edit_profile, name="edit_profile"),
+    path("<username>/notifications/", views.notifications_page, name="notifications_page"),
+    path("<username>/chat/", views.chat_page, name="chat_page"),
 ]
