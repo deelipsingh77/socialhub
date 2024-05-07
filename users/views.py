@@ -61,10 +61,9 @@ def register_page(request):
 
         messages.success(request, "Registration Successful. You can now login.")
         return redirect("/landing/")
-    
 
 
 def landing_page(request):
     if request.user.is_authenticated:
         return redirect("/{{request.user}}/home")
-    return render(request, 'landing-page.html')
+    return render(request, "landing-page.html")
