@@ -11,6 +11,10 @@ input {
   font-family: "Poppins", sans-serif;
 }
 
+.error-message {
+  color: red;
+}
+
 .container {
   position: relative;
   width: 100%;

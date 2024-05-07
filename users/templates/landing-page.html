@@ -17,16 +17,16 @@
             <h2 class="title">Sign in</h2>
             {% if messages %}
               {% for message in messages %}
-                <div>{{ message }}</div>
+                <p class="error-message">{{ message }}</p>
               {% endfor %}
             {% endif %}
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" name="username" />
+              <input type="text" placeholder="Username" name="username" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" name="password" />
+              <input type="password" placeholder="Password" name="password" required/>
             </div>
             <input type="submit" value="Login" class="btn solid" />
           </form>
@@ -36,27 +36,27 @@
             <h2 class="title">Sign up</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="First Name" name="first_name" />
+              <input type="text" placeholder="First Name" name="first_name" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Last Name" name="last_name" />
+              <input type="text" placeholder="Last Name" name="last_name" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" name="username" />
+              <input type="text" placeholder="Username" name="username" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" name="email" />
+              <input type="email" placeholder="Email" name="email" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" name="password" />
+              <input type="password" placeholder="Password" name="password" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Confirm Password" name="confirm_password" />
+              <input type="password" placeholder="Confirm Password" name="confirm_password" required/>
             </div>
             <input type="submit" class="btn" value="Sign up" />
           </form>
@@ -84,5 +84,51 @@
     </div>
 
     <script src="{% static 'js/app.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.sign-up-form');
+        const passwordInput = form.querySelector('input[name="password"]');
+        const confirmPasswordInput = form.querySelector('input[name="confirm_password"]');
+        const firstNameInput = form.querySelector('input[name="first_name"]');
+        const lastNameInput = form.querySelector('input[name="last_name"]');
+        const usernameInput = form.querySelector('input[name="username"]');
+        const emailInput = form.querySelector('input[name="email"]');
+        const errorContainer = document.createElement('div'); // Create a div for error messages
+        errorContainer.classList.add('error-container'); // Add a class to style the error messages
+        
+        form.addEventListener('submit', function(event) {
+          let errors = [];
+
+          // Validate password
+          if (passwordInput.value.length < 6 || passwordInput.value.length > 32) {
+            errors.push("Password must be between 6 and 32 characters");
+          }
+
+          // Validate password confirmation
+          if (passwordInput.value !== confirmPasswordInput.value) {
+            errors.push("Passwords do not match");
+          }
+
+          // You can add more validations here
+
+          // Display errors if any
+          if (errors.length > 0) {
+            event.preventDefault();
+            errorContainer.innerHTML = ''; // Clear previous error messages
+            
+            // Append each error message to the error container
+            errors.forEach(function(error) {
+              const errorElement = document.createElement('p');
+              errorElement.textContent = error;
+              errorElement.classList.add('error-message'); // Add a class to style the error messages
+              errorContainer.appendChild(errorElement);
+            });
+
+            // Insert the error container below the "Sign Up" heading
+            form.insertBefore(errorContainer, form.querySelector('h2.title').nextSibling);
+          }
+        });
+      });
+    </script>
   </body>
 </html>
