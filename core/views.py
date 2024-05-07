@@ -32,7 +32,7 @@ def fetch_api_data(request,type):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def home(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -56,7 +56,7 @@ def home(request, username):
     return render(request, "home.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def my_profile(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -83,7 +83,7 @@ def my_profile(request, username):
     return render(request, "myprofile.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def search_page(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -99,7 +99,7 @@ def search_page(request, username):
     return render(request, "search.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def my_posts(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -122,7 +122,7 @@ def my_posts(request, username):
     return render(request, "posts.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def create_post(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -147,7 +147,7 @@ def create_post(request, username):
     return render(request, "create_post.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def delete_post(request, id):
     post = Post.objects.get(id=id)
 
@@ -160,7 +160,7 @@ def delete_post(request, id):
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def like_post(request, id):
     user = request.user
     post = Post.objects.get(id=id)
@@ -178,7 +178,7 @@ def like_post(request, id):
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def comment_post(request, id):
     content = request.POST.get("content")
     post = Post.objects.get(id=id)
@@ -189,7 +189,7 @@ def comment_post(request, id):
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def follow_unfollow_user(request, username):
     to_follow = User.objects.get(username=username)
     user_profile = UserProfile.objects.get(user=request.user)
@@ -203,7 +203,7 @@ def follow_unfollow_user(request, username):
     # return redirect(f'/{request.user}/search/?{show_follow}')
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def edit_profile(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -235,7 +235,7 @@ def edit_profile(request, username):
     return render(request, "edit_profile.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def notifications_page(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -252,7 +252,7 @@ def notifications_page(request, username):
     return render(request, "notifications.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def chat_page(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -268,7 +268,7 @@ def chat_page(request, username):
     return render(request, "chat.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def others_profile_page(request,otheruser):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -300,7 +300,7 @@ def others_profile_page(request,otheruser):
 
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def entertainment_feeds(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -318,7 +318,7 @@ def entertainment_feeds(request, username):
 
     return render(request, "feeds.html", context)
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def foods_feeds(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -338,7 +338,7 @@ def foods_feeds(request, username):
 
     return render(request, "foods_feeds.html", context)
 
-@login_required(login_url="/login/")
+@login_required(login_url="/landing/")
 def education_feeds(request, username):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)

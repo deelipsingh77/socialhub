@@ -20,13 +20,12 @@ def login_page(request):
             return redirect(f"/{username}/home")
         else:
             messages.error(request, "Wrong username or password")
-            return redirect("login")
-    return render(request, "login.html")
+            return redirect("/landing/")
 
 
 def logout_page(request):
     logout(request)
-    return redirect("login")
+    return redirect("landing")
 
 
 def register_page(request):
@@ -39,18 +38,6 @@ def register_page(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         confirm_password = request.POST.get("confirm_password")
-
-        if password != confirm_password:
-            messages.error(request, "Password do not match.")
-            return redirect("register")
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username is already taken.")
-            return redirect("register")
-
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email is already taken.")
-            return redirect("register")
 
         if (
             first_name
@@ -73,9 +60,8 @@ def register_page(request):
         UserProfile.objects.create(user=user)
 
         messages.success(request, "Registration Successful. You can now login.")
-        return redirect("login")
-    else:
-        return render(request, "register.html")
+        return redirect("/landing/")
+    
 
 
 def landing_page(request):
