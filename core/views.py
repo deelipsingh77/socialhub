@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -7,6 +7,7 @@ from users.models import UserProfile
 from .models import Post, Like, Comment
 from django.dispatch import receiver
 import os
+import requests
 
 
 # Create your views here.
@@ -19,6 +20,17 @@ def get_followings(user_profile):
         all_followings.append(UserProfile.objects.get(user=followings))
     return all_followings
 
+def fetch_api_data(request,type):
+    api_key = "pub_436579ec8dff124afcaf5df2105bd70466ea5"
+    url = f'https://newsdata.io/api/1/news?apikey={api_key}&q={type}&language=en'
+    
+    try:
+        response = requests.get(url)
+        data = response.json()
+        return data
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
 
 @login_required(login_url="/login/")
 def home(request, username):
@@ -29,6 +41,7 @@ def home(request, username):
     likes = Like.objects.filter(user=user)
     all_followings = get_followings(user_profile)
     all_users = UserProfile.objects.all()
+    
 
     context = {
         "user": user,
@@ -283,3 +296,63 @@ def others_profile_page(request,otheruser):
     }
 
     return render(request,"othersprofile.html",context)
+
+
+
+
+@login_required(login_url="/login/")
+def entertainment_feeds(request, username):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    all_users = UserProfile.objects.all()
+    all_followings = get_followings(user_profile)
+    feeds_data=fetch_api_data(request,"entertainment")
+
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+        "feeds_data":feeds_data
+    }
+
+    return render(request, "feeds.html", context)
+
+@login_required(login_url="/login/")
+def foods_feeds(request, username):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    all_users = UserProfile.objects.all()
+    all_followings = get_followings(user_profile)
+    feeds_data=fetch_api_data(request,"food")
+
+
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+        "feeds_data":feeds_data
+
+    }
+
+    return render(request, "foods_feeds.html", context)
+
+@login_required(login_url="/login/")
+def education_feeds(request, username):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    all_users = UserProfile.objects.all()
+    all_followings = get_followings(user_profile)
+    feeds_data=fetch_api_data(request,"education")
+
+
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+        "feeds_data":feeds_data
+    }
+
+    return render(request, "education_feeds.html", context)

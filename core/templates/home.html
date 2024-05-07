@@ -5,12 +5,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SocialHub - {% block title %}Home{% endblock %}</title>
-
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     {% comment %}Font family{% endcomment %}
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
       * {
         font-family: "Poppins", sans-serif;
+      }
+      .fade-in {
+        opacity: 0;
+        animation: fadeIn ease-in 0.5s forwards;
+      }
+  
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+  
+      /* Cursor animation */
+      .cursor1 {
+        display: inline-block;
+        width: 1px;
+        height: 1.2em;
+        background-color: black;
+        animation: blink 1s infinite;
+      }
+  
+      @keyframes blink {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+  
+      .bounce-text {
+        animation: bounce 1s infinite;
       }
     </style>
 
@@ -30,8 +65,8 @@
         id="top"
         class="bg-white rounded-tl-[2.5rem] rounded-tr-[2.5rem] flex justify-between p-5 px-20"
       >
-        <div id="logo">
-          <h1 class="text-2xl">
+        <div id="logo flex ">
+          <h1 class="text-2xl flex items-center" id="logo-text">
             <span class="text-red-500"
               ><i class="fa-brands fa-gg-circle"></i> S</span
             >ocial<span class="text-red-500">H</span>ub
@@ -78,7 +113,7 @@
       >
         <nav class="flex flex-col gap-3">
           <a
-            class="text-lg flex items-center gap-3"
+            class="text-lg flex items-center gap-3 p-2 hover:bg-red-300 rounded-3xl w-44 hover:scale-[1.1] duration-150"
             href="/{{ user.username }}/home"
           >
             <span
@@ -88,7 +123,7 @@
             <span>Home</span>
           </a>
           <a
-            class="text-lg flex items-center gap-3"
+            class="text-lg flex items-center gap-3 p-2 hover:bg-red-300 rounded-3xl w-44 hover:scale-[1.1] duration-150"
             href="/{{ user.username }}/search"
           >
             <span
@@ -98,7 +133,7 @@
             <span>Explore</span>
           </a>
           <a
-            class="text-lg flex items-center gap-3"
+            class="text-lg flex items-center gap-3 p-2 hover:bg-red-300 rounded-3xl w-44 hover:scale-[1.1] duration-150"
             href="/{{ user.username }}/my_posts"
           >
             <span
@@ -107,7 +142,7 @@
             ></span>
             <span>My Posts</span>
           </a>
-          <a class="text-lg flex items-center gap-3" href="/{{ user.username }}/my_profile/">
+          <a class="text-lg flex items-center gap-3 p-2 hover:bg-red-300 rounded-3xl w-44 hover:scale-[1.1] duration-150" href="/{{ user.username }}/my_profile/">
             <span
               class="h-9 w-9 rounded-full bg-purple-200 p-1 flex justify-center items-center"
               ><i class="fa-solid fa-floppy-disk"></i
@@ -115,7 +150,7 @@
             <span>My Profile</span>
           </a>
           <a
-            class="text-lg flex items-center gap-3"
+            class="text-lg flex items-center gap-3 p-2 hover:bg-red-300 rounded-3xl w-44 hover:scale-[1.1] duration-150"
             href="/{{ user.username }}/create_post"
           >
             <span
@@ -124,10 +159,26 @@
             ></span>
             <span>Create Post</span>
           </a>
+          
+          <div class="relative inline-block">
+            <button id="dropdownToggle" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center">
+              <span>Feeds</span>
+              <svg class="h-4 w-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 0 1 1.414 0L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div id="dropdownMenu" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition duration-300 transform origin-top">
+              <a href="/{{ user.username }}/entertainment_feeds" onclick="entertainment()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Entertainment</a>
+              <a href="/{{ user.username }}/education_feeds" onclick="education()" id="education" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Education</a>
+              <a href="/{{ user.username }}/foods_feeds" onclick="food()" id="foods" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Food</a>
+            </div>
+          </div>
+        </div>
+          
         </nav>
         <div id="logout">
           <a
-            class="active_page flex items-center gap-3"
+            class="active_page flex items-center gap-3 p-2 hover:bg-red-300 rounded-3xl w-44 hover:scale-[1.1] duration-150"
             href="{% url 'logout' %}"
           >
             <span
@@ -143,7 +194,7 @@
         {% block content %}
           {% if posts %}
             {% for post in posts %}
-              <div class="bg-white text-gray-800 rounded-3xl shadow-lg p-6 mb-8">
+              <div data-aos="fade-in"  class= " posts-card bg-white text-gray-800 rounded-3xl shadow-lg p-6 mb-8">
                 <div class="flex items-center mb-2">
                   {% for posting_user in all_users %}
                     {% if post.author.username == posting_user.user.username %}
@@ -167,7 +218,7 @@
                   <img
                     src="{{ post.image.url }}"
                     alt="{{ post.title }} image"
-                    class="w-full h-auto mb-4 rounded-lg"
+                    class="w-full mb-4 rounded-lg  "
                   />
                 {% endif %}
                 <div class="interaction-buttons | flex flex-row justify-between">
@@ -289,7 +340,7 @@
                 <h4>{{following_profile.user.username}}</h4>
                 <a href="/{{following_profile.user.username}}/follow_user">
                   <button
-                    class="follow-button px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl"
+                    class="hover:scale-110 duration-100 follow-button px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl"
                     type="submit"
                   >
                     Unfollow
@@ -323,7 +374,7 @@
                     <h4>{{user.user.username}}</h4>
                     <a href="/{{user.user.username}}/follow_user">
                       <button
-                        class="follow-button px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl"
+                        class="hover:scale-110 duration-100 follow-button px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl"
                         type="submit"
                       >
                         {% for following_profile in following_profiles %}
@@ -341,6 +392,13 @@
     </main>
     {% block scripts %} 
       <script src="{% static "js/home.js" %}"></script>
+      <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+      <script>
+        AOS.init({
+          duration: 1000,
+          offset: 200,
+        });
+      </script>
     {% endblock scripts %}
   </body>
 </html>

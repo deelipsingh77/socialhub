@@ -13,17 +13,22 @@
   <div class="users">
     {% for user in all_users %}
       {% if user.user != request.user %}
-        <div class="bg-white rounded-3xl mb-5 p-5 flex justify-between">
+        <div data-aos="fade-left" class="bg-white rounded-3xl mb-40 p-5 flex justify-between">
           <div class="flex gap-4">
-            <a href="/{{user}}/others_profile_page/">
+            <a href="/{{ user }}/others_profile_page/" class="flex">
               <img class="rounded-3xl w-24 object-cover object-top h-32" src="{{ user.profile_pic.url }}" alt="" />
-              <h4 class="text-xl font-semibold text-green-900">{{ user.user.username }}</h4>
+              <div class=" ml-7">
+                <h4 class="text-xl mb-2 font-semibold text-green-900">{{ user.user.username }}</h4>
+                {% if user.user.bio %}
+                  <p class="text-sm">{{ others_profile.user_profile.bio }}</p>
+            
+                {% endif %}
+              </div>
             </a>
-            <p></p>
           </div>
           <div>
             <a href="/{{ user.user.username }}/follow_user">
-              <button class="follow-button px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl" type="submit">
+              <button class="follow-button hover:scale-110 duration-100 hover:bg-blue-700 px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl" type="submit">
                 {% for following_profile in following_profiles %}
                   {% if user == following_profile %}
                     Unfollow

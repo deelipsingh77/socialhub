@@ -1,0 +1,24 @@
+{% extends 'home.html' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block content %}
+
+<div id="education-card-container" class="w-full flex flex-wrap">
+    {% for feed in feeds_data.results %}
+        <div class="w-full mx-auto">
+            <div class="card mb-5  bg-white shadow-lg rounded-lg overflow-hidden">
+            <img src='{{feed.image_url}}'  alt="no image related" class="w-full max-h-80   object-cover object-top">
+            <div class="p-4">
+                <h2 class="text-xl font-semibold text-gray-800">{{feed.title}}</h2>
+                <p class="text-gray-600 text-sm mt-2">{{feed.pubDate}}</p>
+                <p class="text-gray-700 mt-2">{{feed.description}}</p>
+                <p class="text-gray-700 mt-2">Creator: {{feed.creator}}</p>
+            </div>
+            </div>
+        </div>
+     {% endfor %}
+</div>
+
+
+{% endblock %}
