@@ -5,15 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  {% comment %} <form action="">
-    <input type="text" style="color:black" name="search" id="search" />
-    <button style="color:black" type="submit">Search</button>
-  </form> {% endcomment %}
-
   <div class="users">
     {% for user in all_users %}
       {% if user.user != request.user %}
-        <div data-aos="fade-left" class="bg-white rounded-3xl mb-40 p-5 flex justify-between">
+        <div data-aos="fade-left" class="bg-white rounded-3xl mb-4 p-5 flex justify-between">
           <div class="flex gap-4">
             <a href="/{{ user }}/others_profile_page/" class="flex">
               <img class="rounded-3xl w-24 object-cover object-top h-32" src="{{ user.profile_pic.url }}" alt="" />
