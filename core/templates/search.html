@@ -5,25 +5,30 @@
 {% endblock %}
 
 {% block content %}
-  <div class="users">
+<form class="flex items-center justify-center mb-8" method="POST" >
+  {% csrf_token %}
+  <input type="text" class=" border-2 border-gray-300 rounded-3xl px-4 py-2 mr-2 w-64 focus:outline-none focus:w-[80%] focus:border-blue-500 transition-all duration-[0.6s]" name="search" id="search" placeholder="Search">
+  <button type="submit" class="bg-blue-500 hover:bg-blue-600 rounded-3xl text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Search</button>
+</form>
+
+
+<div class="users">
+  {% if all_users %}
     {% for user in all_users %}
       {% if user.user != request.user %}
-        <div data-aos="fade-left" class="bg-white rounded-3xl mb-4 p-5 flex justify-between">
-          <div class="flex gap-4">
-            <a href="/{{ user }}/others_profile_page/" class="flex">
-              <img class="rounded-3xl w-24 object-cover object-top h-32" src="{{ user.profile_pic.url }}" alt="" />
-              <div class=" ml-7">
-                <h4 class="text-xl mb-2 font-semibold text-green-900">{{ user.user.username }}</h4>
-                {% if user.user.bio %}
-                  <p class="text-sm">{{ others_profile.user_profile.bio }}</p>
-            
-                {% endif %}
-              </div>
-            </a>
-          </div>
+        <div data-aos="fade-left" class="hover:pointer bg-gradient-to-br from-blue-200 to-purple-200 rounded-lg mb-5 p-5 flex justify-between items-center">
+          <a href="/{{ user }}/others_profile_page/" class="flex items-center gap-4">
+            <img class="rounded-full w-24 h-24 object-cover object-top" src="{{ user.profile_pic.url }}" alt="" />
+            <div>
+              <h4 class="text-xl mb-2 font-semibold text-blue-700">{{ user.user.username }}</h4>
+              {% if user.user.bio %}
+                <p class="text-sm text-gray-700">{{ user.user.bio }}</p>
+              {% endif %}
+            </div>
+          </a>
           <div>
             <a href="/{{ user.user.username }}/follow_user">
-              <button class="follow-button hover:scale-110 duration-100 hover:bg-blue-700 px-2 text-sm py-1 bg-blue-400 text-white shadow-lg rounded-3xl" type="submit">
+              <button class="follow-button hover:scale-110 duration-100 bg-gradient-to-r from-blue-400 to-purple-400 px-4 py-2 text-sm text-white shadow-lg rounded-lg" type="submit">
                 {% for following_profile in following_profiles %}
                   {% if user == following_profile %}
                     Unfollow
@@ -35,5 +40,10 @@
         </div>
       {% endif %}
     {% endfor %}
-  </div>
+  {% else %}
+    <div>No users found</div>
+  {% endif %}
+</div>
+
+
 {% endblock %}

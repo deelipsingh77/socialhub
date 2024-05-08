@@ -79,10 +79,16 @@ def my_profile(request, username):
 
 @login_required(login_url="/landing/")
 def search_page(request, username):
+    all_users = UserProfile.objects.all()
+    if request.method == "POST":
+        search = request.POST.get("search")
+        if search: 
+            user_profiles = UserProfile.objects.filter(user__username__icontains=search)
+            if user_profiles:
+                all_users=user_profiles
+            
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    all_users = UserProfile.objects.all()
-
     all_followings = get_followings(user_profile)
     context = {
         "user": user,

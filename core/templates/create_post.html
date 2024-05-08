@@ -3,20 +3,21 @@
 {% block title %}New Post{% endblock %}
 
 {% block content %}
-  <form enctype="multipart/form-data" method="POST" class="shadow-lg w-full mx-auto bg-white p-8 rounded-3xl">
-    {% csrf_token %}
-    <div class="mb-4">
-      <input  required type="text" placeholder="Title" name="title" id="title" class="w-full px-3 py-2 border rounded-3xl focus:outline-none focus:border-blue-500 bg-slate-200 " />
-    </div>
-    <div class="mb-4">
-      <textarea  name="content" id="content" rows="7" placeholder="Content" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-slate-200 "></textarea>
-    </div>
-    <label for="image" class="custom-file-upload">
-        <i class="fa-solid fa-upload"></i> Upload Image
-    </label>
-    <input id="image" type="file" name="image" style="display: none;" />
-    <div class="text-center mt-5">
-      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Create Post</button>
-    </div>
-  </form>
+<form enctype="multipart/form-data" method="POST" class="shadow-lg w-full mx-auto bg-white p-8 rounded-3xl">
+  {% csrf_token %}
+  <div class="mb-4">
+    <input required type="text" placeholder="Title" name="title" id="title" class="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100" />
+  </div>
+  <div class="mb-4">
+    <textarea name="content" id="content" rows="7" placeholder="Content" class="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"></textarea>
+  </div>
+  <label for="image" class="block text-gray-700 font-bold">
+    <i class="fa-solid fa-upload mr-2"></i> Upload Image
+  </label>
+  <input id="image" type="file" name="image" class="hidden" />
+  <div class="text-center mt-5">
+    <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Create Post</button>
+  </div>
+</form>
+
 {% endblock %}
