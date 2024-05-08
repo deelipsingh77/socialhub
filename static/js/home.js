@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   dropdownToggle.addEventListener('click', function (event) {
     dropdownMenu.classList.toggle('hidden');
+    dropdownMenu.classList.add('animate')
     dropdownMenu.classList.toggle('block');
   });
 
@@ -28,26 +29,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-const logoText = document.getElementById('logo-text');
-const text = "SocialHub";
-let index = 0;
 
-let post_card = document.getElementsByClassName('posts-card')
-function posts_animation() {
-  let c = true
-  for (let post of post_card) {
-    if (c) {
-      post.attributes[0].nodeValue = "fade-left"
-      console.log(post_card[0].attributes[0].nodeValue)
-      c=false
-    }
-    else {
-      post.attributes[0].nodeValue = "fade-right"
-      c=true
-    }
+
+document.addEventListener("DOMContentLoaded", function () {
+  var navLinks = document.querySelectorAll(".nav-link");
+  var feedLinks = document.querySelectorAll(".feed-link");
+  // Function to add active class to the link
+  function setActiveLink() {
+    var currentPath = window.location.pathname;
+    navLinks.forEach(function (link) {
+      
+      if (`${link.getAttribute("href")}/` === currentPath) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+    feedLinks.forEach(function (link) {
+      if (`${link.getAttribute("href")}/` === currentPath) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
   }
-}
-posts_animation()
+
+  // Call the function initially
+  setActiveLink();
+
+  // Call the function whenever the user clicks on a link
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", setActiveLink);
+  });
+
+  feedLinks.forEach(function (link) {
+    link.addEventListener("click", setActiveLink);
+  });
+});
 
 
 

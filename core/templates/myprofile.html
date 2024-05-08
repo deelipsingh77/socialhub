@@ -3,33 +3,33 @@
 {% block title %}My Profile{% endblock %}
 
 {% block content %}
-  <div class="flex flex-row w-full gap-3 border-b-2 border-slate-400 p-5 pb-10">
-    <div class="">
-      <img class="h-56 w-56 rounded-full object-cover object-top" src="{{ user_profile.profile_pic.url }}" alt="" />
+<div class="flex flex-row w-full gap-3 border-b-2 border-slate-400 p-5 pb-10">
+  <div>
+    <img class="h-56 w-56 rounded-full object-cover object-top" src="{{ user_profile.profile_pic.url }}" alt="" />
+  </div>
+  <div class="details-container | w-[70%] flex flex-col justify-around">
+    <div class="user-details-container">
+      <div class="name-field | flex flex-row justify-between items-center">
+        <h1 class="text-3xl text-blue-900">{{ user.first_name }} {{ user.last_name }}</h1>
+        <a href="/{{ user.username }}/edit_profile"><button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Edit Profile</button></a>
+      </div>
+      <div>
+        <h4 class="text-md text-gray-600">@{{ user.username }}</h4>
+      </div>
+      <div class="mt-4">
+        {% if user_profile.bio %}
+        <p class="text-sm text-gray-700">{{ user_profile.bio }}</p>
+        {% else %}
+        <p class="text-sm text-gray-700">Please write something about you</p>
+        {% endif %}
+      </div>
     </div>
-    <div class="details-container | w-[70%] flex flex-col justify-around">
-      <div class="user-details-container">
-        <div class="name-field | flex flex-row justify-between">
-          <h1 class="text-3xl">{{ user.first_name }} {{ user.last_name }}</h1>
-          <a href="/{{ user.username }}/edit_profile"><button class="px-2 text-sm py-1 bg-blue-400 hover:bg-blue-600 text-white shadow-lg rounded-3xl">Edit Profile</button></a>
-        </div>
-        <div>
-          <h4 class="text-md">@{{ user.username }}</h4>
-        </div>
-        <div class="mt-4">
-          {% if user_profile.bio %}
-          <p class="text-sm">{{ user_profile.bio }}</p>
-          {% else %}
-          <p class="text-sm">Please write something about you</p>
-          {% endif %}
-        </div>
-      </div>
-      <div class="engagement-details-container | flex flex-row justify-around">
-        
-        <h3>{{request.user.following.count}}  followers</h3>
-        <h3>{{user_profile.followers.count}}  following</h3>
-      </div>
+    <div class="engagement-details-container | flex flex-row justify-around">
+      <h3 class="text-blue-900">{{ request.user.following.count }} followers</h3>
+      <h3 class="text-blue-900">{{ user_profile.followers.count }} following</h3>
     </div>
   </div>
+</div>
+
   
 {% endblock %}
