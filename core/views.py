@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from users.models import UserProfile
 from .models import Post, Like, Comment
+from django.contrib.auth import authenticate
+from django.contrib import messages
 from django.dispatch import receiver
 import os
 import requests
@@ -30,6 +32,36 @@ def fetch_api_data(request, type):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
+@login_required(login_url="/landing/")
+def delete_account(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    posts = Post.objects.all().order_by("-pub_date")
+    comments = Comment.objects.all()
+    likes = Like.objects.filter(user=user)
+    all_followings = get_followings(user_profile)
+    all_users = UserProfile.objects.all()
+
+    if(request.method=="POST"):
+        password=request.POST.get("password")
+        user = authenticate(username=request.user.username, password=password)
+        if user:
+            user.delete()
+            messages.warning(request,"You account is succesfully deleted")
+            return redirect("/landing/")
+        else:
+            messages.error(request,"Worng password")
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "posts": posts,
+        "comments": comments,
+        "likes": likes,
+        "following_profiles": all_followings,
+        "all_users": all_users,
+    }
+
+    return render(request, "delete_account.html", context)
 
 @login_required(login_url="/landing/")
 def home(request, username):
@@ -150,7 +182,7 @@ def create_post(request, username):
 @login_required(login_url="/landing/")
 def delete_post(request, id):
     post = Post.objects.get(id=id)
-
+   
     if post.image:
         image_path = os.path.join(settings.MEDIA_ROOT, str(post.image))
         if os.path.exists(image_path):

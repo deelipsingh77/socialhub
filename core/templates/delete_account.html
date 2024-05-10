@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+
+{% block title %}
+  Edit Profile
+{% endblock %}
+
+{% block content %}
+  <form method="POST" class="text-center">
+    {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="bg-yellow-100 border-l-4 rounded-xl border-yellow-500 text-yellow-700 p-4" role="alert">
+          <p class="font-bold">Warning!</p>
+          <p>{{ message }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+
+    {% csrf_token %}
+    <p class="mb-4 text-gray-600">Are you sure you want to delete your account? This action cannot be undone. Please enter your password to confirm:</p>
+    <input placeholder="password" type="password" name="password" id="password" class="border border-gray-300 rounded-md px-4 py-2 mb-4 outline-none" />
+    <button class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600" type="submit">Delete Account</button>
+  </form>
+{% endblock %}
