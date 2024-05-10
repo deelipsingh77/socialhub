@@ -55,7 +55,7 @@ def register_page(request):
             user.save()
         else:
             messages.error(request, "Please fill all the deatails !!!")
-            return redirect("register")
+            return redirect("landing")
 
         UserProfile.objects.create(user=user)
 
